@@ -11,7 +11,8 @@ source/game/fix_shot_fsm.o source/game/fix_shot_fsm.d: \
  ../drivers/../drivers/custom/TFT/MCUFRIEND_kbv.h \
  ../drivers/../drivers/custom/TFT/TFT_config.h ../device/MK64F12.h \
  ../drivers/../drivers/custom/JOYSTICK/JOYSTICK.h \
- ../drivers/custom/TFT/Adafruit_GFX.h ../drivers/custom/TFT/gfxfont.h
+ ../drivers/custom/TFT/Adafruit_GFX.h ../drivers/custom/TFT/gfxfont.h \
+ ../source/game/utilities.h
 
 ../source/game/fix_shot_fsm.h:
 
@@ -56,3 +57,5 @@ source/game/fix_shot_fsm.o source/game/fix_shot_fsm.d: \
 ../drivers/custom/TFT/Adafruit_GFX.h:
 
 ../drivers/custom/TFT/gfxfont.h:
+
+../source/game/utilities.h:

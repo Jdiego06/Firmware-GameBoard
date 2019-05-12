@@ -54,7 +54,7 @@ clean:
 
 post-build:
 	-@echo 'Performing post-build steps'
-	-arm-none-eabi-size "AngryBirdsV2.axf"; # arm-none-eabi-objcopy -v -O binary "AngryBirdsV2.axf" "AngryBirdsV2.bin" ; # checksum -p MK64FN1M0xxx12 -d "AngryBirdsV2.bin";
+	-arm-none-eabi-size "AngryBirdsV2.axf"; # arm-none-eabi-objcopy -v -O binary "AngryBirdsV2.axf" "AngryBirdsV2.bin" ; # checksum -p MK64FX512xxx12 -d "AngryBirdsV2.bin";
 	-@echo ' '
 
 .PHONY: all clean dependents post-build

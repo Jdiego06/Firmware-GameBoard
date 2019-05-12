@@ -9,7 +9,7 @@
 #include "../drivers/custom/TFT/Adafruit_GFX.h"
 #include "../drivers/custom/JOYSTICK/JOYSTICK.h"
 #include "../drivers/custom/HAPTIC/BUTTON.h"
-//#include "game/game_fsm.h"
+#include "game/game_fsm.h"
 
 
 

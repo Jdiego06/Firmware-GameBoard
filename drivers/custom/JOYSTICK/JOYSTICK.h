@@ -48,7 +48,7 @@ typedef struct Joystic_Struc{
 }Joystic_Struct;
 
 
-extern volatile Joystic_Struct joystic;
+extern volatile Joystic_Struct joystick;
 extern volatile joystick_direction joystick_dir;
 
 void JOYSTICK_init(void);

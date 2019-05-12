@@ -3,16 +3,16 @@
  * Copyright (c) 2008 - 2013 Code Red Technologies Ltd, 
  * Copyright 2015, 2018 NXP
  * (c) NXP Semiconductors 2013-2019
- * Generated linker script file for MK64FN1M0xxx12
+ * Generated linker script file for MK64FX512xxx12
  * Created from memory.ldt by FMCreateLinkMemory
  * Using Freemarker v2.3.23
- * MCUXpresso IDE v10.3.0 [Build 2200] [2018-12-03] on 11/05/2019 02:25:10 PM
+ * MCUXpresso IDE v10.3.0 [Build 2200] [2018-12-03] on 12/05/2019 10:32:24 AM
  */
 
 MEMORY
 {
   /* Define each memory region */
-  PROGRAM_FLASH (rx) : ORIGIN = 0x0, LENGTH = 0x100000 /* 1M bytes (alias Flash) */  
+  PROGRAM_FLASH (rx) : ORIGIN = 0x0, LENGTH = 0x80000 /* 512K bytes (alias Flash) */  
   SRAM_UPPER (rwx) : ORIGIN = 0x20000000, LENGTH = 0x30000 /* 192K bytes (alias RAM) */  
   SRAM_LOWER (rwx) : ORIGIN = 0x1fff0000, LENGTH = 0x10000 /* 64K bytes (alias RAM2) */  
   FLEX_RAM (rwx) : ORIGIN = 0x14000000, LENGTH = 0x1000 /* 4K bytes (alias RAM3) */  
@@ -21,8 +21,8 @@ MEMORY
   /* Define a symbol for the top of each memory region */
   __base_PROGRAM_FLASH = 0x0  ; /* PROGRAM_FLASH */  
   __base_Flash = 0x0 ; /* Flash */  
-  __top_PROGRAM_FLASH = 0x0 + 0x100000 ; /* 1M bytes */  
-  __top_Flash = 0x0 + 0x100000 ; /* 1M bytes */  
+  __top_PROGRAM_FLASH = 0x0 + 0x80000 ; /* 512K bytes */  
+  __top_Flash = 0x0 + 0x80000 ; /* 512K bytes */  
   __base_SRAM_UPPER = 0x20000000  ; /* SRAM_UPPER */  
   __base_RAM = 0x20000000 ; /* RAM */  
   __top_SRAM_UPPER = 0x20000000 + 0x30000 ; /* 192K bytes */  

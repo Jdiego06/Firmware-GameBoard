@@ -22,7 +22,7 @@
 uint16_t adc16_data;
 adc16_channel_config_t JOYSTICK_ChannelConfigStruct;
 volatile joystick_direction joystick_dir = joystick_middle;
-volatile Joystic_Struct joystic;
+volatile Joystic_Struct joystick;
 
 //volatile joystic_data joysticData
 
@@ -135,14 +135,14 @@ void GAME_BOARD_JOYSTICK_ADC_IRQ_HANDLER_FUNC(void) {
 		} else {
 			joystick_dir = joystick_left;
 		}
-		joystic.Ypos = adc16_data;
+		joystick.Ypos = adc16_data;
 	} else {
 		if (adc16_data <= GAME_BOARD_JOYSTICK_LOWER_ADC_LIMIT) {
 			joystick_dir = joystick_up;
 		} else {
 			joystick_dir = joystick_down;
 		}
-		joystic.Xpos = adc16_data;
+		joystick.Xpos = adc16_data;
 	}
 	JOYSTICK_FLAG = 1;
 	__DSB();

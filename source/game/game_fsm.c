@@ -28,9 +28,6 @@
 #include "../../drivers/custom/TFT/Fonts/AbRegular.h"
 #include "../../drivers/custom/TFT/Fonts/angrybirds_regular12pt7b.h"
 
-//#include "bomberman_fsm.h"
-//#include "bomb_fsm.h"
-
 #define TILE_W 16
 #define TILE_H 16
 #define SPANX 32
@@ -44,6 +41,7 @@ game_states game_state = init;
 //---------------------- Subroutines -----------------
 
 void paintMap(void) {
+
 	//paint Background
 	MCUFRIEND_kbv_fillBMP(Background);
 	//paint Bird
@@ -51,9 +49,10 @@ void paintMap(void) {
 			0, 0, 16, 16, 0Xffffff);
 	MCUFRIEND_kbv_print_tail(actual_sprint_buffer, 35, 75, 16, 16);
 }
-/*
+
 void paintCaratule(void) {
-	int numero = 1;
+	int numero;
+	numero=(joystick.Xpos % 2);
 
 	switch (numero) {
 	case 0:
@@ -62,13 +61,8 @@ void paintCaratule(void) {
 	case 1:
 		MCUFRIEND_kbv_fillBMP(Caratula2);
 		break;
-	case 2:
-		MCUFRIEND_kbv_fillBMP(Caratula3);
-		break;
-	default:
-		break;
 	}
-}*/
+}
 
 void game_fsm(void) {
 
@@ -76,8 +70,8 @@ void game_fsm(void) {
 	case init:
 		MCUFRIEND_kbv_setRotation(1);
 		Adafruit_GFX_setRotation(3);
-		//paintCaratule();
-		MCUFRIEND_kbv_fillBMP(Caratula1);
+		paintCaratule();
+		//MCUFRIEND_kbv_fillBMP(Caratula1);
 		Adafruit_GFX_setTextColorB(0xFFFF, 0x0000);
 		Adafruit_GFX_setFont(&angrybirds_regular20pt7b);
 		Adafruit_GFX_setCursor(0, 35);
