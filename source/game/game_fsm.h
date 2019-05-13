@@ -15,12 +15,33 @@
 #define GAME_FSM_H_
 
 
-#include "../drivers/custom/TFT/images/images.h"
-#include "../drivers/custom/TFT/MCUFRIEND_kbv.h"
-#include "../drivers/custom/JOYSTICK/JOYSTICK.h"
+#include "JOYSTICK/JOYSTICK.h"
+#include "TFT/images/images.h"
+#include "TFT/MCUFRIEND_kbv.h"
 
 
+#include "utilities.h"
+#include "Adafruit_GFX.h"
+#include "fix_shot_fsm.h"
+#include "shot_bird_fsm.h"
 
+
+#define TailWidth 	16
+#define TailHeight  16
+
+//Max Values of bird positions
+#define MaxX 30
+#define MaxY 110
+#define MinY 40
+
+
+#define TILE_W 16
+#define TILE_H 16
+#define SPANX 32
+#define SPANY 32
+
+extern uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
+		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image
 
 
 typedef enum {
@@ -29,8 +50,9 @@ typedef enum {
 	painting_map,
 	pause,
 	gaming,
+	shot_bird,
 	gameover,
 }game_states;
 
 void game_fsm(void);
-#endif /* GAME_FSM_H_ */
+#endif

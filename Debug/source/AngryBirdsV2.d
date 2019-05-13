@@ -18,10 +18,11 @@ source/AngryBirdsV2.o source/AngryBirdsV2.d: ../source/AngryBirdsV2.c \
  ../source/../drivers/custom/HAPTIC/BUTTON.h ../drivers/fsl_lptmr.h \
  ../source/../drivers/custom/HAPTIC/HAPTIC_PIN.h \
  ../source/../drivers/custom/HAPTIC/../GLOBAL.h ../source/game/game_fsm.h \
- ../drivers/../drivers/custom/TFT/images/images.h \
- ../drivers/../drivers/custom/TFT/MCUFRIEND_kbv.h \
- ../drivers/../drivers/custom/TFT/TFT_config.h \
- ../drivers/../drivers/custom/JOYSTICK/JOYSTICK.h
+ ../drivers/custom/JOYSTICK/JOYSTICK.h \
+ ../drivers/custom/TFT/images/images.h \
+ ../drivers/custom/TFT/MCUFRIEND_kbv.h ../drivers/custom/TFT/TFT_config.h \
+ ../source/game/utilities.h ../drivers/custom/TFT/Adafruit_GFX.h \
+ ../source/game/fix_shot_fsm.h ../source/game/shot_bird_fsm.h
 
 ../board/board.h:
 
@@ -91,10 +92,18 @@ source/AngryBirdsV2.o source/AngryBirdsV2.d: ../source/AngryBirdsV2.c \
 
 ../source/game/game_fsm.h:
 
-../drivers/../drivers/custom/TFT/images/images.h:
+../drivers/custom/JOYSTICK/JOYSTICK.h:
 
-../drivers/../drivers/custom/TFT/MCUFRIEND_kbv.h:
+../drivers/custom/TFT/images/images.h:
 
-../drivers/../drivers/custom/TFT/TFT_config.h:
+../drivers/custom/TFT/MCUFRIEND_kbv.h:
 
-../drivers/../drivers/custom/JOYSTICK/JOYSTICK.h:
+../drivers/custom/TFT/TFT_config.h:
+
+../source/game/utilities.h:
+
+../drivers/custom/TFT/Adafruit_GFX.h:
+
+../source/game/fix_shot_fsm.h:
+
+../source/game/shot_bird_fsm.h:

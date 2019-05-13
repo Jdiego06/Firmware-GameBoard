@@ -1,24 +1,22 @@
 #ifndef FIX_SHOT_FSM
 #define FIX_SHOT_FSM
 
-#include "../../drivers/custom/JOYSTICK/JOYSTICK.h"
-#include "../drivers/custom/TFT/images/images.h"
-#include "../drivers/custom/TFT/MCUFRIEND_kbv.h"
-#include "../drivers/custom/JOYSTICK/JOYSTICK.h"
+#include "JOYSTICK/JOYSTICK.h"
+#include "TFT/images/images.h"
+#include "TFT/MCUFRIEND_kbv.h"
 #include  "Adafruit_GFX.h"
 #include  "utilities.h"
 
 
-#define TILE_W 16
-#define TILE_H 16
-#define SPANX 32
-#define SPANY 70
+extern int16_t LastX;
+extern int16_t LastY;
 
-#define MaxX 30
-#define MaxY 110
-#define MinY 40
+extern int16_t left_span;
+extern int16_t rigth_span;
+extern int16_t up_span;
+extern int16_t down_span;
 
 void fix_shot_fsm(void);
-void CalculateSpan(int16_t x, int16_t y);
+extern void CalculateSpan(int16_t x, int16_t y);
 
 #endif

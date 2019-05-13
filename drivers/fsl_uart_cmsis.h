@@ -23,7 +23,7 @@
 #define _FSL_UART_CMSIS_H_
 
 #include "fsl_common.h"
-#include "Driver_USART.h"
+#include "../../board/CMSIS_driver/Driver_USART.h"
 #include "RTE_Device.h"
 #include "fsl_uart.h"
 #if (defined(FSL_FEATURE_SOC_DMAMUX_COUNT) && FSL_FEATURE_SOC_DMAMUX_COUNT)

@@ -6,16 +6,19 @@
 C_SRCS += \
 ../source/game/fix_shot_fsm.c \
 ../source/game/game_fsm.c \
+../source/game/shot_bird_fsm.c \
 ../source/game/utilities.c 
 
 OBJS += \
 ./source/game/fix_shot_fsm.o \
 ./source/game/game_fsm.o \
+./source/game/shot_bird_fsm.o \
 ./source/game/utilities.o 
 
 C_DEPS += \
 ./source/game/fix_shot_fsm.d \
 ./source/game/game_fsm.d \
+./source/game/shot_bird_fsm.d \
 ./source/game/utilities.d 
 
 

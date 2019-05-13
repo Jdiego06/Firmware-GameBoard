@@ -21,21 +21,14 @@
  * ----------------------------------------------------------------------------*/
 
 #include "game_fsm.h"
-#include "utilities.h"
-#include "Adafruit_GFX.h"
-#include "fix_shot_fsm.h"
+#include "TFT/Fonts/AbRegular.h"
+#include "TFT/Fonts/angrybirds_regular12pt7b.h"
 
-#include "../../drivers/custom/TFT/Fonts/AbRegular.h"
-#include "../../drivers/custom/TFT/Fonts/angrybirds_regular12pt7b.h"
-
-#define TILE_W 16
-#define TILE_H 16
-#define SPANX 32
-#define SPANY 32
-
+//define size according to maximum convert image
 uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
-		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image
+		* ((2 * SPANY) + (2 * TILE_H))];
 
+//Initial Game State
 game_states game_state = init;
 
 //---------------------- Subroutines -----------------
@@ -45,24 +38,25 @@ void paintMap(void) {
 	//paint Background
 	MCUFRIEND_kbv_fillBMP(Background);
 	//paint Bird
-	imagesoverlay(BirdOne, Background, actual_sprint_buffer, 320, 35, 75, 0, 0,
-			0, 0, 16, 16, 0Xffffff);
+	imagesoverlay((unsigned short *) BirdOne, (unsigned short *) Background,
+			(unsigned short *) actual_sprint_buffer, 320, 35, 75, 0, 0, 0, 0,
+			16, 16, 0Xffff);
 	MCUFRIEND_kbv_print_tail(actual_sprint_buffer, 35, 75, 16, 16);
 }
 
-void paintCaratule(void) {
-	int numero;
-	numero=(joystick.Xpos % 2);
+/*void paintCaratule(void) {
+ int numero;
+ numero = (joystick.Xpos % 2);
 
-	switch (numero) {
-	case 0:
-		MCUFRIEND_kbv_fillBMP(Caratula1);
-		break;
-	case 1:
-		MCUFRIEND_kbv_fillBMP(Caratula2);
-		break;
-	}
-}
+ switch (numero) {
+ case 0:
+ MCUFRIEND_kbv_fillBMP(Caratula1);
+ break;
+ case 1:
+ MCUFRIEND_kbv_fillBMP(Caratula2);
+ break;
+ }
+ }*/
 
 void game_fsm(void) {
 
@@ -70,8 +64,8 @@ void game_fsm(void) {
 	case init:
 		MCUFRIEND_kbv_setRotation(1);
 		Adafruit_GFX_setRotation(3);
-		paintCaratule();
-		//MCUFRIEND_kbv_fillBMP(Caratula1);
+		//paintCaratule();
+		MCUFRIEND_kbv_fillBMP(Caratula1);
 		Adafruit_GFX_setTextColorB(0xFFFF, 0x0000);
 		Adafruit_GFX_setFont(&angrybirds_regular20pt7b);
 		Adafruit_GFX_setCursor(0, 35);
@@ -106,9 +100,18 @@ void game_fsm(void) {
 			game_state = pause;
 		}
 
+		if (BTNB_FLAG == 1) {
+			BTNB_FLAG = 0;
+			game_state = shot_bird;
+		}
+
 		fix_shot_fsm();
 		//bomb_fsm();
 
+		break;
+	case shot_bird:
+		shot_bird_fsm();
+		game_state = init;
 		break;
 
 	case pause:
@@ -127,6 +130,8 @@ void game_fsm(void) {
 			game_state = painting_map;
 		}
 		break;
+	default:
+		game_state = painting_map;
 	}
 
 }

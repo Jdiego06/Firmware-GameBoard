@@ -1,5 +1,6 @@
-source/game/game_fsm.o source/game/game_fsm.d: ../source/game/game_fsm.c \
- ../source/game/game_fsm.h ../drivers/custom/JOYSTICK/JOYSTICK.h \
+source/game/shot_bird_fsm.o source/game/shot_bird_fsm.d: \
+ ../source/game/shot_bird_fsm.c ../source/game/shot_bird_fsm.h \
+ ../drivers/custom/JOYSTICK/JOYSTICK.h \
  ../drivers/custom/JOYSTICK/../GLOBAL.h \
  ../drivers/custom/JOYSTICK/../GLOBAL.h ../drivers/fsl_adc16.h \
  ../drivers/fsl_common.h ../device/fsl_device_registers.h \
@@ -8,14 +9,11 @@ source/game/game_fsm.o source/game/game_fsm.d: ../source/game/game_fsm.c \
  ../device/system_MK64F12.h ../device/MK64F12_features.h \
  ../drivers/fsl_clock.h ../drivers/custom/TFT/images/images.h \
  ../drivers/custom/TFT/MCUFRIEND_kbv.h ../drivers/custom/TFT/TFT_config.h \
- ../device/MK64F12.h ../source/game/utilities.h \
- ../drivers/custom/TFT/Adafruit_GFX.h ../drivers/custom/TFT/gfxfont.h \
- ../source/game/fix_shot_fsm.h ../source/game/shot_bird_fsm.h \
- ../drivers/custom/TFT/Fonts/AbRegular.h \
- ../drivers/custom/TFT/Fonts/../gfxfont.h \
- ../drivers/custom/TFT/Fonts/angrybirds_regular12pt7b.h
+ ../device/MK64F12.h ../drivers/custom/TFT/Adafruit_GFX.h \
+ ../drivers/custom/TFT/gfxfont.h ../source/game/utilities.h \
+ ../source/game/fix_shot_fsm.h ../source/game/game_fsm.h
 
-../source/game/game_fsm.h:
+../source/game/shot_bird_fsm.h:
 
 ../drivers/custom/JOYSTICK/JOYSTICK.h:
 
@@ -53,18 +51,12 @@ source/game/game_fsm.o source/game/game_fsm.d: ../source/game/game_fsm.c \
 
 ../device/MK64F12.h:
 
-../source/game/utilities.h:
-
 ../drivers/custom/TFT/Adafruit_GFX.h:
 
 ../drivers/custom/TFT/gfxfont.h:
 
+../source/game/utilities.h:
+
 ../source/game/fix_shot_fsm.h:
 
-../source/game/shot_bird_fsm.h:
-
-../drivers/custom/TFT/Fonts/AbRegular.h:
-
-../drivers/custom/TFT/Fonts/../gfxfont.h:
-
-../drivers/custom/TFT/Fonts/angrybirds_regular12pt7b.h:
+../source/game/game_fsm.h:

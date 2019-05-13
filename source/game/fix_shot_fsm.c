@@ -1,7 +1,5 @@
 #include "fix_shot_fsm.h"
-
-uint16_t actual_sprint_buffer2[(TILE_W + (2 * SPANX))
-		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image
+#include "game_fsm.h"
 
 int16_t LastX = 35;
 int16_t LastY = 75;
@@ -33,26 +31,18 @@ void fix_shot_fsm(void) {
 			JoysticValueY = MinY;
 		}
 
-		//int JoysticValueY=joystic.Ypos;
-
-		/*char str[20];
-		 sprintf(str, "%d", JoysticValueY);
-		 printf(str);
-		 printf("\n\n");
-		 */
-
-		//MCUFRIEND_kbv_print_tail(&Background[(320 * 40)], 0, 40, 320, 80);
 		CalculateSpan(JoysticValueX, JoysticValueY);
 
 		imagesoverlay((unsigned short *) &BirdOne,
 				(unsigned short *) &Background,
-				(unsigned short *) &actual_sprint_buffer2, 320,
-				JoysticValueX, JoysticValueY, left_span,
-				rigth_span, up_span, down_span, 16, 16, 0Xffff);
+				(unsigned short *) &actual_sprint_buffer, 320, JoysticValueX,
+				JoysticValueY, left_span, rigth_span, up_span, down_span, 16,
+				16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer2,
-				JoysticValueX - left_span, JoysticValueY- up_span, 16 + rigth_span + left_span,
-				16 + up_span + down_span);
+		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer,
+				(JoysticValueX - left_span), (JoysticValueY - up_span),
+				(TailWidth + rigth_span + left_span),
+				(TailHeight + up_span + down_span));
 
 	}
 

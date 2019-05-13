@@ -1,6 +1,7 @@
+#ifndef AB_REGULAR_H
+#define AB_REGULAR_H
+
 #include "../gfxfont.h"
-
-
 
 const uint8_t angrybirds_regular20pt7bBitmaps[]  = {
   0x00, 0x00, 0x22, 0x01, 0x3A, 0x0D, 0xF0, 0x7F, 0x03, 0xF8, 0x1F, 0xC0,
@@ -533,5 +534,7 @@ const GFXfont angrybirds_regular20pt7b  = {
   (uint8_t  *)angrybirds_regular20pt7bBitmaps,
   (GFXglyph *)angrybirds_regular20pt7bGlyphs,
   0x20, 0x7E, 45 };
+
+#endif
 
 // Approx. 5799 bytes
