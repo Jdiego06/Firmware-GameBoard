@@ -8,9 +8,9 @@
 #include  "utilities.h"
 #include "fix_shot_fsm.h"
 
-#define time 15
-#define gravity 8.2
-#define CteVix 	1.23
+#define duracionVuelo 0.5   // inversamente Proporcional max 1.2 min ?
+#define velocity 4
+#define gravity 5.2
 #define y0		0
 #define x0		0
 

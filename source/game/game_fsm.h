@@ -29,14 +29,18 @@
 #define TailWidth 	16
 #define TailHeight  16
 
+
 //Max Values of bird positions
 #define MaxX 35
-#define MaxY 110  //Before 110
-#define MinY 75
+#define MaxY 110
+#define MinY 40 //Before 40-75
 
-//Choose Bird
+
+//Choose the bird
 #define Bird BirdOne
 
+
+//Define tiles size
 #define TILE_W 16
 #define TILE_H 16
 #define SPANX 16
@@ -44,7 +48,6 @@
 
 extern uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
 		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image
-
 
 typedef enum {
 	init,

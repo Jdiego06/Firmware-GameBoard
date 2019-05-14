@@ -12,6 +12,7 @@ double Xpos=0;
 double Counter = 0;
 
 void shot_bird_fsm(void) {
+
 	//Get Joystick Values
 	int JoysticValueX = (joystick.Xpos / 1000) * 1.79 - 23.84;
 	int JoysticValueY = (joystick.Ypos / 1000) * 1.52 + 24.74;
@@ -36,31 +37,30 @@ void shot_bird_fsm(void) {
 	Counter = 0;
 	while (true) {
 
-		Time = Counter * 10 / 72;
+		Time = Counter * (duracionVuelo*Xpos+7)/ 75;
 
-		NextYposition = (y0
-				+ Ypos * Time * (abs(Ypos) / sqrt(pow(Xpos, 2) + pow(Ypos, 2)))
+		NextYposition = (
+				y0+ Ypos * Time * (abs(Ypos) / sqrt(pow(Xpos, 2) + pow(Ypos, 2)))
 				- (0.5) * gravity * (pow(Time, 2)));
 
-		NextYposition = (int16_t) (72 - NextYposition);
+		NextYposition = (int16_t) (JoysticValueY - NextYposition);
 
-		if (NextYposition >= 239) {
+		if (NextYposition > 190) {
 			return;
 		}
 
-		if (NextYposition <= 0) {
+		if (NextYposition < 0) {
 			return;
 		}
 
 		NextXposition = (int16_t) (NextXposition + 4);
 
 
-
-		if (NextXposition >= 319) {
+		if (NextXposition > 304) {
 			return;
 		}
 
-		if (NextXposition <= 0) {
+		if (NextXposition < 0) {
 			return;
 		}
 
@@ -79,7 +79,7 @@ void shot_bird_fsm(void) {
 
 		Counter++;
 
-		for (int var = 0; var < 145000 * time; ++var) {
+		for (int var = 0; var < 145000 * velocity; ++var) {
 			__asm("nop");
 		}
 
