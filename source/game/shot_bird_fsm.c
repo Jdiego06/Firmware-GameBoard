@@ -7,8 +7,8 @@
 double Time = 0;
 double NextYposition = 0;
 double NextXposition = 0;
-uint16_t Ypos;
-uint16_t Xpos;
+double Ypos=0;
+double Xpos=0;
 double Counter = 0;
 
 void shot_bird_fsm(void) {
@@ -30,11 +30,11 @@ void shot_bird_fsm(void) {
 	}
 
 	Ypos = JoysticValueY - 75;
-	Xpos = -JoysticValueX + 35;
-	NextXposition = Xpos;
+	Xpos = JoysticValueX;
+	NextXposition = Xpos - 4;
 
-	Counter=0;
-	while (Counter < 100) {
+	Counter = 0;
+	while (true) {
 
 		Time = Counter * 10 / 72;
 
@@ -42,11 +42,9 @@ void shot_bird_fsm(void) {
 				+ Ypos * Time * (abs(Ypos) / sqrt(pow(Xpos, 2) + pow(Ypos, 2)))
 				- (0.5) * gravity * (pow(Time, 2)));
 
-		NextYposition = 75 - NextYposition;
+		NextYposition = (int16_t) (72 - NextYposition);
 
-
-
-		if (NextYposition >= 240) {
+		if (NextYposition >= 239) {
 			return;
 		}
 
@@ -54,9 +52,21 @@ void shot_bird_fsm(void) {
 			return;
 		}
 
-		CalculateSpan((int16_t)NextXposition, (int16_t) NextYposition);
+		NextXposition = (int16_t) (NextXposition + 4);
 
-		imagesoverlay((unsigned short *) &BirdOne,
+
+
+		if (NextXposition >= 319) {
+			return;
+		}
+
+		if (NextXposition <= 0) {
+			return;
+		}
+
+		CalculateSpan(NextXposition, NextYposition);
+
+		imagesoverlay((unsigned short *) &Bird,
 				(unsigned short *) &Background,
 				(unsigned short *) &actual_sprint_buffer, 320, NextXposition,
 				NextYposition, left_span, rigth_span, up_span, down_span, 16,
@@ -68,21 +78,11 @@ void shot_bird_fsm(void) {
 				(TailHeight + up_span + down_span));
 
 		Counter++;
-		NextXposition = NextXposition + 4;
 
-		if (NextXposition >= 320) {
-			return;
-		}
-
-		if (NextXposition <= 0) {
-			return;
-		}
-
-		for (int var = 0; var < 1000000; ++var) {
+		for (int var = 0; var < 145000 * time; ++var) {
 			__asm("nop");
 		}
 
 	}
-
 }
 

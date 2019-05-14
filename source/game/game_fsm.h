@@ -30,15 +30,17 @@
 #define TailHeight  16
 
 //Max Values of bird positions
-#define MaxX 30
-#define MaxY 110
-#define MinY 40
+#define MaxX 35
+#define MaxY 110  //Before 110
+#define MinY 75
 
+//Choose Bird
+#define Bird BirdOne
 
 #define TILE_W 16
 #define TILE_H 16
-#define SPANX 32
-#define SPANY 32
+#define SPANX 16
+#define SPANY 16
 
 extern uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
 		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image

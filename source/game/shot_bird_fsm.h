@@ -8,7 +8,7 @@
 #include  "utilities.h"
 #include "fix_shot_fsm.h"
 
-
+#define time 15
 #define gravity 8.2
 #define CteVix 	1.23
 #define y0		0

@@ -34,14 +34,16 @@ game_states game_state = init;
 //---------------------- Subroutines -----------------
 
 void paintMap(void) {
-
 	//paint Background
 	MCUFRIEND_kbv_fillBMP(Background);
 	//paint Bird
-	imagesoverlay((unsigned short *) BirdOne, (unsigned short *) Background,
-			(unsigned short *) actual_sprint_buffer, 320, 35, 75, 0, 0, 0, 0,
+	imagesoverlay((unsigned short *) Bird, (unsigned short *) Background,
+			(unsigned short *) actual_sprint_buffer, 320, 35, 195, 0, 0, 0, 0,
 			16, 16, 0Xffff);
-	MCUFRIEND_kbv_print_tail(actual_sprint_buffer, 35, 75, 16, 16);
+	MCUFRIEND_kbv_print_tail(actual_sprint_buffer, 35, 195, 16, 16);
+
+	LastX = 35;
+	LastY = 75;
 }
 
 /*void paintCaratule(void) {
@@ -111,7 +113,8 @@ void game_fsm(void) {
 		break;
 	case shot_bird:
 		shot_bird_fsm();
-		game_state = init;
+		paintMap();
+		game_state = gaming;
 		break;
 
 	case pause:

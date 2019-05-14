@@ -1,8 +1,8 @@
 #include "fix_shot_fsm.h"
 #include "game_fsm.h"
 
-int16_t LastX = 35;
-int16_t LastY = 75;
+int16_t LastX;
+int16_t LastY;
 
 int16_t left_span;
 int16_t rigth_span;
@@ -10,6 +10,8 @@ int16_t up_span;
 int16_t down_span;
 
 void fix_shot_fsm(void) {
+
+
 
 	if (JOYSTICK_FLAG == 1) {
 		JOYSTICK_FLAG = 0;
@@ -33,7 +35,7 @@ void fix_shot_fsm(void) {
 
 		CalculateSpan(JoysticValueX, JoysticValueY);
 
-		imagesoverlay((unsigned short *) &BirdOne,
+		imagesoverlay((unsigned short *) &Bird,
 				(unsigned short *) &Background,
 				(unsigned short *) &actual_sprint_buffer, 320, JoysticValueX,
 				JoysticValueY, left_span, rigth_span, up_span, down_span, 16,
@@ -47,6 +49,8 @@ void fix_shot_fsm(void) {
 	}
 
 }
+
+//Calcula el Span, dependiendo las posiciones anterior, y actual del ave
 
 void CalculateSpan(int16_t x, int16_t y) {
 
