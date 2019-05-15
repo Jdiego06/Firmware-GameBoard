@@ -30,24 +30,25 @@ void imagesoverlay( unsigned short *image1, 		//image that will be in front
 					uint16_t color)					//define the transparent color for image1
 					{
 
-	uint16_t i=0,j=0,actual_row_pos_base=0,actual_pixel_pos, actual_row_background;
+	uint16_t i=0,j=0,actual_row_pos_base=0,actual_pixel_pos;
+	int actual_row_background;
     uint16_t limity=(h+(down_h_span+up_h_span));
     uint16_t limitx=(w+(rigth_w_span+left_w_span));
 
 	for(i=0;i<limity;i++){
 		actual_row_pos_base=i*limitx;
-		actual_row_background=(y_background-up_h_span+i)*w_background;
+		actual_row_background=((int)(y_background-up_h_span+i))*((int)w_background);
 		for(j=0;j<limitx;j++){
 			actual_pixel_pos=actual_row_pos_base+j;
 			if( j>=left_w_span && j<w+left_w_span && i>=up_h_span && i<h+up_h_span ){
 				if(*image1!=color){
 					image_result[actual_pixel_pos]=*image1;
 				}else{
-					image_result[actual_pixel_pos]=background[((actual_row_background)+(x_background-left_w_span)+j)];
+					image_result[actual_pixel_pos]=background[((int)(actual_row_background)+(int)(x_background-left_w_span)+(int)j)];
 				}
 				image1++;
 			}else{
-				image_result[actual_pixel_pos]=background[((actual_row_background)+(x_background-left_w_span)+j)];
+				image_result[actual_pixel_pos]=background[((int)(actual_row_background)+(int)(x_background-left_w_span)+(int)j)];
 			}
 			//DEBUG:uncomment for show result in TFT first pixels block
 			//Adafruit_GFX_writePixel(j, i, image_result[actual_pixel_pos]);

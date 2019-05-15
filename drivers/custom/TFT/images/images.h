@@ -25,4 +25,10 @@ extern const unsigned short PigOne[256];
 extern const unsigned short PigThree[256];
 extern const unsigned short PigTwo[256];
 
+extern const unsigned short DustOne[256];
+extern const unsigned short DustTwo[256];
+extern const unsigned short DustThree[256];
+extern const unsigned short DustFour[256];
+extern const unsigned short white[256];
+
 #endif /* IMAGES_H_ */

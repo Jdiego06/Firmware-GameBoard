@@ -11,7 +11,8 @@ source/game/shot_bird_fsm.o source/game/shot_bird_fsm.d: \
  ../drivers/custom/TFT/MCUFRIEND_kbv.h ../drivers/custom/TFT/TFT_config.h \
  ../device/MK64F12.h ../drivers/custom/TFT/Adafruit_GFX.h \
  ../drivers/custom/TFT/gfxfont.h ../source/game/utilities.h \
- ../source/game/fix_shot_fsm.h ../source/game/game_fsm.h
+ ../source/game/fix_shot_fsm.h ../source/game/paint_map_fsm.h \
+ ../source/game/game_fsm.h ../source/game/paint_dust_fsm.h
 
 ../source/game/shot_bird_fsm.h:
 
@@ -59,4 +60,8 @@ source/game/shot_bird_fsm.o source/game/shot_bird_fsm.d: \
 
 ../source/game/fix_shot_fsm.h:
 
+../source/game/paint_map_fsm.h:
+
 ../source/game/game_fsm.h:
+
+../source/game/paint_dust_fsm.h:

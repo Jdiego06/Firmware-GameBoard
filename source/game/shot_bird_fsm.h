@@ -7,14 +7,17 @@
 #include  "Adafruit_GFX.h"
 #include  "utilities.h"
 #include "fix_shot_fsm.h"
+#include "paint_map_fsm.h"
+
+#include <stdbool.h>
 
 #define duracionVuelo 0.5   // inversamente Proporcional max 1.2 min ?
-#define velocity 4
+#define velocity 2
 #define gravity 5.2
 #define y0		0
 #define x0		0
 
 
-void shot_bird_fsm(void);
+bool shot_bird_fsm(void);
 
 #endif

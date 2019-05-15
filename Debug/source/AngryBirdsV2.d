@@ -22,7 +22,9 @@ source/AngryBirdsV2.o source/AngryBirdsV2.d: ../source/AngryBirdsV2.c \
  ../drivers/custom/TFT/images/images.h \
  ../drivers/custom/TFT/MCUFRIEND_kbv.h ../drivers/custom/TFT/TFT_config.h \
  ../source/game/utilities.h ../drivers/custom/TFT/Adafruit_GFX.h \
- ../source/game/fix_shot_fsm.h ../source/game/shot_bird_fsm.h
+ ../source/game/fix_shot_fsm.h ../source/game/shot_bird_fsm.h \
+ ../source/game/paint_map_fsm.h ../source/game/game_fsm.h \
+ ../source/game/paint_dust_fsm.h
 
 ../board/board.h:
 
@@ -107,3 +109,9 @@ source/AngryBirdsV2.o source/AngryBirdsV2.d: ../source/AngryBirdsV2.c \
 ../source/game/fix_shot_fsm.h:
 
 ../source/game/shot_bird_fsm.h:
+
+../source/game/paint_map_fsm.h:
+
+../source/game/game_fsm.h:
+
+../source/game/paint_dust_fsm.h:

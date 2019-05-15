@@ -14,10 +14,14 @@ C_SRCS += \
 ../drivers/custom/TFT/images/Caratula1.c \
 ../drivers/custom/TFT/images/Caratula2.c \
 ../drivers/custom/TFT/images/Caratula3.c \
+../drivers/custom/TFT/images/DustFour.c \
+../drivers/custom/TFT/images/DustOne.c \
+../drivers/custom/TFT/images/DustThree.c \
+../drivers/custom/TFT/images/DustTwo.c \
 ../drivers/custom/TFT/images/PigOne.c \
 ../drivers/custom/TFT/images/PigThree.c \
 ../drivers/custom/TFT/images/PigTwo.c \
-../drivers/custom/TFT/images/palms_road.c 
+../drivers/custom/TFT/images/white.c 
 
 OBJS += \
 ./drivers/custom/TFT/images/Background.o \
@@ -30,10 +34,14 @@ OBJS += \
 ./drivers/custom/TFT/images/Caratula1.o \
 ./drivers/custom/TFT/images/Caratula2.o \
 ./drivers/custom/TFT/images/Caratula3.o \
+./drivers/custom/TFT/images/DustFour.o \
+./drivers/custom/TFT/images/DustOne.o \
+./drivers/custom/TFT/images/DustThree.o \
+./drivers/custom/TFT/images/DustTwo.o \
 ./drivers/custom/TFT/images/PigOne.o \
 ./drivers/custom/TFT/images/PigThree.o \
 ./drivers/custom/TFT/images/PigTwo.o \
-./drivers/custom/TFT/images/palms_road.o 
+./drivers/custom/TFT/images/white.o 
 
 C_DEPS += \
 ./drivers/custom/TFT/images/Background.d \
@@ -46,10 +54,14 @@ C_DEPS += \
 ./drivers/custom/TFT/images/Caratula1.d \
 ./drivers/custom/TFT/images/Caratula2.d \
 ./drivers/custom/TFT/images/Caratula3.d \
+./drivers/custom/TFT/images/DustFour.d \
+./drivers/custom/TFT/images/DustOne.d \
+./drivers/custom/TFT/images/DustThree.d \
+./drivers/custom/TFT/images/DustTwo.d \
 ./drivers/custom/TFT/images/PigOne.d \
 ./drivers/custom/TFT/images/PigThree.d \
 ./drivers/custom/TFT/images/PigTwo.d \
-./drivers/custom/TFT/images/palms_road.d 
+./drivers/custom/TFT/images/white.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

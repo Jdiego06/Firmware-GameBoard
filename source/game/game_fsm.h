@@ -24,7 +24,11 @@
 #include "Adafruit_GFX.h"
 #include "fix_shot_fsm.h"
 #include "shot_bird_fsm.h"
+#include  "paint_map_fsm.h"
+#include "paint_dust_fsm.h"
 
+#include <stdio.h>
+#include <stdbool.h>
 
 #define TailWidth 	16
 #define TailHeight  16
@@ -49,12 +53,19 @@
 extern uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
 		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image
 
+
+extern int remaining_shots;
+extern int coorDustx; //Coors of pig that will be killed
+extern int coorDusty; //Coors of pig that will be killed
+
+
 typedef enum {
 	init,
 	waitingforstart,
 	painting_map,
 	pause,
 	gaming,
+	draw_dust,
 	shot_bird,
 	gameover,
 }game_states;

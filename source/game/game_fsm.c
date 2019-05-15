@@ -28,37 +28,22 @@
 uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
 		* ((2 * SPANY) + (2 * TILE_H))];
 
-
 //Initial Game State
 game_states game_state = init;
+
+//uint16_t *Bird = (uint16_t *) BirdOne;
 
 //remaining_shots
 int remaining_shots;
 
+int coorDustx;
+int coorDusty;
+
 //---------------------- Subroutines -----------------
-
-void paintMap(void) {
-	//paint Background
-	MCUFRIEND_kbv_fillBMP(Background);
-	//paint Birds
-
-	for (int i = 0; i < remaining_shots; ++i) {
-
-		imagesoverlay((unsigned short *) Bird, (unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, 16 * i + 3 * i, 4,
-				0, 0, 0, 0, 16, 16, 0Xffff);
-
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, 16 * i + 3 * i, 4, 16,
-				16);
-
-	}
-	LastX = 35;
-	LastY = 75;
-}
 
 void paintCaratule(void) {
 	int numero;
-	numero = ((joystick.Xpos+joystick.Ypos) % 2);
+	numero = ((joystick.Xpos + joystick.Ypos) % 2);
 
 	switch (numero) {
 	case 0:
@@ -98,7 +83,9 @@ void game_fsm(void) {
 
 	case painting_map:
 		remaining_shots = 3;
-		paintMap();
+		paintBackground();
+		paint_lifes();
+		paint_pigs();
 		game_state = gaming;
 		break;
 
@@ -122,10 +109,21 @@ void game_fsm(void) {
 
 		break;
 	case shot_bird:
-		shot_bird_fsm();
+
+		if (shot_bird_fsm()) {
+			game_state = gaming;
+		} else {
+			game_state = draw_dust;
+		}
 		--remaining_shots;
-		paintMap();
-		game_state = gaming;
+		paint_lifes();
+		//BTNB_FLAG = 0; //FOR ERROR BUTTON PRESS WHILE SHOT BIRD
+		break;
+
+	case draw_dust:
+		if (paintDust()) {
+			game_state = gaming;
+		}
 		break;
 
 	case pause:
