@@ -38,6 +38,8 @@ int remaining_shots;
 
 int coorDustx;
 int coorDusty;
+int PigToKill;
+bool killPig;
 
 //---------------------- Subroutines -----------------
 
@@ -115,13 +117,14 @@ void game_fsm(void) {
 		} else {
 			game_state = draw_dust;
 		}
+		MCUFRIEND_kbv_print_tail(&Background[(320 * 220)], 0, 220, 320, 20);
 		--remaining_shots;
-		paint_lifes();
 		//BTNB_FLAG = 0; //FOR ERROR BUTTON PRESS WHILE SHOT BIRD
 		break;
 
 	case draw_dust:
 		if (paintDust()) {
+			paint_lifes();
 			game_state = gaming;
 		}
 		break;

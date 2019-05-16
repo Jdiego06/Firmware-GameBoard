@@ -13,7 +13,7 @@ double Xpos = 0;
 double Counter = 0;
 
 bool shot_bird_fsm(void) {
-
+	killPig = false;
 	bool RetFlag = true;
 
 	//Get Joystick Values
@@ -48,24 +48,21 @@ bool shot_bird_fsm(void) {
 
 		NextYposition = (int16_t) (JoysticValueY - NextYposition);
 
-		if (NextYposition > 240) {
-			return true;
-		}
-
-		if (NextYposition < 0) {
-			return true;
+		if (NextYposition > (240 - TILE_H)) {
+			NextYposition = (240 - TILE_H);
+			coorDustx = NextXposition;
+			coorDusty = NextYposition;
+			RetFlag = false;
 		}
 
 		NextXposition = (int16_t) (NextXposition + 4);
 
-		if (NextXposition > 320) {
-			return true;
+		if (NextXposition >= (320 - TILE_W)) {
+			NextXposition = (320 - TILE_W);
+			coorDustx = NextXposition;
+			coorDusty = NextYposition;
+			RetFlag = false;
 		}
-
-		if (NextXposition < 0) {
-			return true;
-		}
-
 
 		//mira si el siguiente paso, choca con un bloque
 		for (int i = 0; i < 3; ++i) {
@@ -79,12 +76,11 @@ bool shot_bird_fsm(void) {
 				if (NextYposition >= BlockY
 						&& NextYposition <= (BlockY + TILE_H)) {
 					FallBird(BlockX, BlockY);
-					return true;
+					return false;
 				}
 
 			}
 		}
-
 
 		//mira si el siguiente paso, choca con un marrano
 		for (int i = 0; i < 3; ++i) {
@@ -100,7 +96,8 @@ bool shot_bird_fsm(void) {
 					coorDusty = PigY;
 					NextXposition = PigX;
 					NextYposition = PigY;
-					//put matrix in limits that is up of screen size
+					PigToKill = i;
+					killPig = true;  //Kill Pig
 					RetFlag = false;
 				}
 			}
@@ -136,7 +133,10 @@ void FallBird(int X, int Y) {
 	NextXposition = X - 16;
 	NextYposition = Y;
 
-	for (NextYposition; NextYposition < 240; NextYposition++) {
+	coorDustx = NextXposition;
+	coorDusty = 224;
+
+	for (NextYposition; NextYposition < 224; NextYposition++) {
 
 		CalculateSpan(NextXposition, NextYposition);
 
@@ -150,9 +150,9 @@ void FallBird(int X, int Y) {
 				(TailWidth + rigth_span + left_span),
 				(TailHeight + up_span + down_span));
 
-		for (int var = 0; var < 80000 * velocity; ++var) {
+		for (int var = 0; var < 40000 * velocity; ++var) {
 			__asm("nop");
 		}
+
 	}
 }
-

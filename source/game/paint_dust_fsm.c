@@ -57,8 +57,10 @@ bool paintDust(void) {
 
 	default:
 		counter = 0;
-		matrix_pigs[coorDustx][0] = 500;
-		matrix_pigs[coorDusty][1] = 500;
+		if (killPig) {
+			matrix_pigs[PigToKill][0] = 500;
+			matrix_pigs[PigToKill][1] = 500;
+		}
 		return true;
 	}
 

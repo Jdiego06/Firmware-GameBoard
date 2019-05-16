@@ -57,7 +57,8 @@ extern uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
 extern int remaining_shots;
 extern int coorDustx; //Coors of pig that will be killed
 extern int coorDusty; //Coors of pig that will be killed
-
+extern int PigToKill;
+extern bool killPig;
 
 typedef enum {
 	init,
