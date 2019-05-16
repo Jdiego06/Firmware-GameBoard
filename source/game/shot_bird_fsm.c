@@ -58,7 +58,6 @@ bool shot_bird_fsm(void) {
 
 		NextXposition = (int16_t) (NextXposition + 4);
 
-
 		if (NextXposition > 320) {
 			return true;
 		}
@@ -67,6 +66,27 @@ bool shot_bird_fsm(void) {
 			return true;
 		}
 
+
+		//mira si el siguiente paso, choca con un bloque
+		for (int i = 0; i < 3; ++i) {
+
+			int BlockX = matrix_blocks[i][0];
+			int BlockY = matrix_blocks[i][1];
+
+			if (NextXposition > (BlockX - TILE_W)
+					&& NextXposition <= (BlockX + TILE_W)) {
+
+				if (NextYposition >= BlockY
+						&& NextYposition <= (BlockY + TILE_H)) {
+					FallBird(BlockX, BlockY);
+					return true;
+				}
+
+			}
+		}
+
+
+		//mira si el siguiente paso, choca con un marrano
 		for (int i = 0; i < 3; ++i) {
 
 			int PigX = matrix_pigs[i][0];
@@ -74,7 +94,8 @@ bool shot_bird_fsm(void) {
 
 			if (NextXposition >= PigX && NextXposition <= (PigX + TILE_W)) {
 
-				if (NextYposition >= PigY && NextYposition <= (PigY + TILE_H)) {
+				if (NextYposition >= (PigY - TILE_H)
+						&& NextYposition <= (PigY + TILE_H)) {
 					coorDustx = PigX;
 					coorDusty = PigY;
 					NextXposition = PigX;
@@ -107,6 +128,31 @@ bool shot_bird_fsm(void) {
 			return false;
 		}
 
+	}
+}
+
+void FallBird(int X, int Y) {
+
+	NextXposition = X - 16;
+	NextYposition = Y;
+
+	for (NextYposition; NextYposition < 240; NextYposition++) {
+
+		CalculateSpan(NextXposition, NextYposition);
+
+		imagesoverlay((unsigned short *) &Bird, (unsigned short *) &Background,
+				(unsigned short *) &actual_sprint_buffer, 320, NextXposition,
+				NextYposition, left_span, rigth_span, up_span, down_span, 16,
+				16, 0Xffff);
+
+		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer,
+				(NextXposition - left_span), (NextYposition - up_span),
+				(TailWidth + rigth_span + left_span),
+				(TailHeight + up_span + down_span));
+
+		for (int var = 0; var < 80000 * velocity; ++var) {
+			__asm("nop");
+		}
 	}
 }
 

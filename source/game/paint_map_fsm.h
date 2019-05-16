@@ -8,6 +8,8 @@
 #include "game_fsm.h"
 
 extern int matrix_pigs[3][2];
+extern int matrix_blocks[3][2];
+
 
 void paint_pigs(void);
 void paintMap(void);
