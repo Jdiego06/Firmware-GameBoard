@@ -1,3 +1,24 @@
+/*---------------------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * <jd99@outlook.com>, <cristian.osorio7365@uco.net.co> written this file.
+ * As long as you retain this notice you can do whatever you want with this
+ * stuff. If we meet some day, and you think this stuff is worth it, you can
+ * buy me a beer in return. Poul-Henning Kamp
+ * --------------------------------------------------------------------------------------*/
+
+ /*---------------------------------------------------------------------------------------
+ * Ing: Juan Diego Cardona
+ * Ing: Cristian Camilo Osorio
+ * Company: UCO
+ * Date: 18-05-2019
+ * Project: Angry Birds
+ * Description:
+ * 				This code implements the necessary functionalities
+ * 				to draw the position of a bird, given by the location
+ * 				of the Joystic.
+ * --------------------------------------------------------------------------------------*/
+
+
 #include "fix_shot_fsm.h"
 #include "game_fsm.h"
 
@@ -9,16 +30,29 @@ int16_t rigth_span;
 int16_t up_span;
 int16_t down_span;
 
+
+/*---------------------------------------------------------------------------------------
+ *			This function reads the value of the joystic and adjusts
+ *			it to a value in pixels given by the equations, the function
+ *			prevents the positioning of the bird outside the range given
+ *			by the cosntants: Xmax, Ymax, Ymin, Xmin. The function paints
+ *			the bird in the corresponding position.
+ * --------------------------------------------------------------------------------------*/
+
+int JoysticValueX=INIT_X_VALUE;
+int JoysticValueY=INIT_Y_VALUE;
+
 void fix_shot_fsm(void) {
 
 	if (JOYSTICK_FLAG == 1) {
 		JOYSTICK_FLAG = 0;
 
-		//Get Joystick Values
-		int JoysticValueX = (joystick.Xpos / 1000) * 1.79 - 23.84;
-		int JoysticValueY = (joystick.Ypos / 1000) * 1.52 + 24.74;
+		/*    Get the joystick values ​​and convert them to pixels    */
+		JoysticValueX = (joystick.Xpos / 1000) * 1.79 - 23.84;
+		JoysticValueY = (joystick.Ypos / 1000) * 1.52 + 24.74;
 
-		//Adjust Joystick Values between Max and Min
+
+		/*    Adjust the values ​​if necessary    */
 		if (JoysticValueX > MaxX) {
 			JoysticValueX = MaxX;
 		}
@@ -31,8 +65,9 @@ void fix_shot_fsm(void) {
 			JoysticValueY = MinY;
 		}
 
-		CalculateSpan(JoysticValueX, JoysticValueY);
 
+		/*    Paint the bird in TFT    */
+		CalculateSpan(JoysticValueX, JoysticValueY);
 		imagesoverlay((unsigned short *) &Bird, (unsigned short *) &Background,
 				(unsigned short *) &actual_sprint_buffer, 320, JoysticValueX,
 				JoysticValueY, left_span, rigth_span, up_span, down_span, 16,
@@ -40,14 +75,18 @@ void fix_shot_fsm(void) {
 
 		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer,
 				(JoysticValueX - left_span), (JoysticValueY - up_span),
-				(TailWidth + rigth_span + left_span),
-				(TailHeight + up_span + down_span));
+				(TILE_WIDHT + rigth_span + left_span),
+				(TILE_HEIGHT + up_span + down_span));
 
 	}
 
 }
 
-//Calcula el Span, dependiendo las posiciones anterior, y actual del ave
+/*---------------------------------------------------------------------------------------
+ *			This function allows to calculate the values ​​of span in all
+ *			directions, given some current coordinates, and some previous
+ *			coordinates.
+ * --------------------------------------------------------------------------------------*/
 
 void CalculateSpan(int16_t x, int16_t y) {
 

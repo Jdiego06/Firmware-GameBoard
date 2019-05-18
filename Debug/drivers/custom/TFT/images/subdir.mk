@@ -5,6 +5,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../drivers/custom/TFT/images/Background.c \
+../drivers/custom/TFT/images/Background_1.c \
+../drivers/custom/TFT/images/Background_2.c \
 ../drivers/custom/TFT/images/BirdOne.c \
 ../drivers/custom/TFT/images/BirdThree.c \
 ../drivers/custom/TFT/images/BirdTwo.c \
@@ -25,6 +27,8 @@ C_SRCS += \
 
 OBJS += \
 ./drivers/custom/TFT/images/Background.o \
+./drivers/custom/TFT/images/Background_1.o \
+./drivers/custom/TFT/images/Background_2.o \
 ./drivers/custom/TFT/images/BirdOne.o \
 ./drivers/custom/TFT/images/BirdThree.o \
 ./drivers/custom/TFT/images/BirdTwo.o \
@@ -45,6 +49,8 @@ OBJS += \
 
 C_DEPS += \
 ./drivers/custom/TFT/images/Background.d \
+./drivers/custom/TFT/images/Background_1.d \
+./drivers/custom/TFT/images/Background_2.d \
 ./drivers/custom/TFT/images/BirdOne.d \
 ./drivers/custom/TFT/images/BirdThree.d \
 ./drivers/custom/TFT/images/BirdTwo.d \

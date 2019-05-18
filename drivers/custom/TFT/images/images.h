@@ -8,10 +8,13 @@
 #ifndef IMAGES_H_
 #define IMAGES_H_
 
+extern const unsigned short Background_1[76800];
+extern const unsigned short Background_2[76800];
 extern const unsigned short Background[76800];
-extern const unsigned short Caratula1[76800];
-extern const unsigned short Caratula2[76800];
-extern const unsigned short Caratula3[76800];
+
+extern const unsigned short Caratula_1[76800];
+extern const unsigned short Caratula_2[76800];
+extern const unsigned short Caratula_3[76800];
 
 extern const unsigned short BirdOne[256];
 extern const unsigned short BirdThree[256];

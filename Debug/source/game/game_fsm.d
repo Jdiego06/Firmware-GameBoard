@@ -11,8 +11,8 @@ source/game/game_fsm.o source/game/game_fsm.d: ../source/game/game_fsm.c \
  ../device/MK64F12.h ../source/game/utilities.h \
  ../drivers/custom/TFT/Adafruit_GFX.h ../drivers/custom/TFT/gfxfont.h \
  ../source/game/fix_shot_fsm.h ../source/game/shot_bird_fsm.h \
- ../source/game/paint_map_fsm.h ../source/game/paint_dust_fsm.h \
- ../drivers/custom/TFT/Fonts/AbRegular.h \
+ ../source/game/paint_map_fsm.h ../drivers/fsl_pit.h \
+ ../source/game/paint_dust_fsm.h ../drivers/custom/TFT/Fonts/AbRegular.h \
  ../drivers/custom/TFT/Fonts/../gfxfont.h \
  ../drivers/custom/TFT/Fonts/angrybirds_regular12pt7b.h
 
@@ -65,6 +65,8 @@ source/game/game_fsm.o source/game/game_fsm.d: ../source/game/game_fsm.c \
 ../source/game/shot_bird_fsm.h:
 
 ../source/game/paint_map_fsm.h:
+
+../drivers/fsl_pit.h:
 
 ../source/game/paint_dust_fsm.h:
 

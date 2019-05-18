@@ -1,3 +1,20 @@
+/*---------------------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * <jd99@outlook.com>, <cristian.osorio7365@uco.net.co> wrote this file.
+ * As long as you retain this notice you can do whatever you want with this
+ * stuff. If we meet some day, and you think this stuff is worth it, you can
+ * buy me a beer in return. Poul-Henning Kamp
+ * --------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------
+ * Ing: Juan Diego Cardona
+ * Ing: Cristian Camilo Osorio
+ * Company: UCO
+ * Date: 18-05-2019
+ * Project: Angry Birds
+ * --------------------------------------------------------------------------------------*/
+
+
 #ifndef SHOT_BIRD_FSM_H
 #define SHOT_BIRD_FSM_H
 
@@ -11,11 +28,12 @@
 
 #include <stdbool.h>
 
-#define duracionVuelo 0.5   // inversamente Proporcional max 1.2 min ?
-#define velocity 2
-#define gravity 5.2
-#define y0		0
-#define x0		0
+/*---------------------------------------------------------------------------------------
+ *								physical constants of the world
+ * --------------------------------------------------------------------------------------*/
+#define DISTANCE_FLIGHT 0.5
+#define VELOCITY 2
+#define GRAVITY 5.2
 
 
 int shot_bird_fsm(void);

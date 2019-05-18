@@ -1,3 +1,25 @@
+/*---------------------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * <jd99@outlook.com>, <cristian.osorio7365@uco.net.co> written this file.
+ * As long as you retain this notice you can do whatever you want with this
+ * stuff. If we meet some day, and you think this stuff is worth it, you can
+ * buy me a beer in return. Poul-Henning Kamp
+ * --------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------
+ * Ing: Juan Diego Cardona
+ * Ing: Cristian Camilo Osorio
+ * Company: UCO
+ * Date: 18-05-2019
+ * Project: Angry Birds
+ * Description:
+ * 				This code implements a function capable of calculating
+ * 				and changing a parabolic trajectory with the bird, according
+ * 				to the initial values ​​of the joystick, besides that it is able
+ * 				to verify if the bird hits against one of the pigs, one of
+ * 				the blocks, or against the edge of the screen.
+ * --------------------------------------------------------------------------------------*/
+
 #include "shot_bird_fsm.h"
 #include "paint_map_fsm.h"
 #include <stdlib.h>
@@ -13,64 +35,56 @@ double Xpos = 0;
 double Counter = 0;
 
 int shot_bird_fsm(void) {
-	killPig = false;
-	destroyBlock = false;
 
-
-	//Get Joystick Values
-	int JoysticValueX = (joystick.Xpos / 1000) * 1.79 - 23.84;
-	int JoysticValueY = (joystick.Ypos / 1000) * 1.52 + 24.74;
-
-	//Adjust Joystick Values between Max and Min
-	if (JoysticValueX > MaxX) {
-		JoysticValueX = MaxX;
-	}
-
-	if (JoysticValueY > MaxY) {
-		JoysticValueY = MaxY;
-	}
-
-	if (JoysticValueY < MinY) {
-		JoysticValueY = MinY;
-	}
-
+	/*---------------------------------------------------------------------------------------
+	 *			Adjusts the position of the joystick to a new frame of reference.
+	 * --------------------------------------------------------------------------------------*/
 	Ypos = JoysticValueY - 75;
 	Xpos = JoysticValueX;
 	NextXposition = Xpos - 4;
 
 	Counter = 0;
-	bool RetFlag=false;
-
+	bool RetFlag = false;
 
 	while (true) {
 
-		Time = Counter * (duracionVuelo * Xpos + 7) / 75;
+		/*---------------------------------------------------------------------------------------
+		 *			Calculate the following position values ​​in X and Y.
+		 * --------------------------------------------------------------------------------------*/
+		Time = Counter * (DISTANCE_FLIGHT * Xpos + 7) / 75;
 
-		NextYposition = (
-		y0 + Ypos * Time * (abs(Ypos) / sqrt(pow(Xpos, 2) + pow(Ypos, 2)))
-				- (0.5) * gravity * (pow(Time, 2)));
+		NextYposition = JoysticValueY - (Ypos * Time * (abs(Ypos) / sqrt(pow(Xpos, 2) + pow(Ypos, 2)))
+						- (0.5) * GRAVITY * (pow(Time, 2)));
 
-		//Calcula las posiciones
-		NextYposition = (int16_t) (JoysticValueY - NextYposition);
 		NextXposition = (int16_t) (NextXposition + 4);
 
-		//Calcula si el pajaro sale de la pantalla
 
-		if (NextYposition > (240 - TILE_H)) {
-			NextYposition = (240 - TILE_H);
+
+
+		/*---------------------------------------------------------------------------------------
+		 *			Check if the next step, the bird hits the edge of the screen,
+		 *			if so, the function adjusts the new position, and returns at
+		 *			the end.
+		 * --------------------------------------------------------------------------------------*/
+
+		if (NextYposition > (240 - TILE_HEIGHT)) {
+			NextYposition = (240 - TILE_HEIGHT);
 			coorDustx = NextXposition;
 			coorDusty = NextYposition;
 			RetFlag = true;
 		}
 
-		if (NextXposition >= (320 - TILE_W)) {
-			NextXposition = (320 - TILE_W);
+		if (NextXposition >= (320 - TILE_WIDHT)) {
+			NextXposition = (320 - TILE_WIDHT);
 			coorDustx = NextXposition;
 			coorDusty = NextYposition;
 			RetFlag = true;
 		}
 
-		//mira si el pajaro choca contra un objeto
+		/*---------------------------------------------------------------------------------------
+		 *			Verify if in the next step, the bird collides with an object,
+		 *			 if so, verify the type of object, and return at the end.
+		 * --------------------------------------------------------------------------------------*/
 
 		for (int i = 0; i < 3; i++) {
 
@@ -80,15 +94,14 @@ int shot_bird_fsm(void) {
 			int PigX = matrix_pigs[i][0];
 			int PigY = matrix_pigs[i][1];
 
-			if ((NextXposition >= (PigX - TILE_W)
-					&& NextXposition <= (PigX + TILE_W))
-					|| (NextXposition >= (BlockX - TILE_W)
-							&& NextXposition <= (BlockX + TILE_W))) {
+			if ((NextXposition >= (PigX - TILE_WIDHT)
+					&& NextXposition <= (PigX + TILE_WIDHT))
+					|| (NextXposition >= (BlockX - TILE_WIDHT)
+							&& NextXposition <= (BlockX + TILE_WIDHT))) {
 
-				//choque contra marrano
-
-				if (NextYposition >= (PigY - TILE_H)
-						&& NextYposition <= (PigY + TILE_H)) {
+				/*    If the bird hits a pig    */
+				if (NextYposition >= (PigY - TILE_HEIGHT)
+						&& NextYposition <= (PigY + TILE_HEIGHT)) {
 
 					NextXposition = PigX;
 					NextYposition = PigY;
@@ -103,9 +116,9 @@ int shot_bird_fsm(void) {
 
 					break;
 				}
-				//choque contra bloque
-				if (NextYposition >= (BlockY - TailHeight)
-						&& NextYposition <= (BlockY + TILE_H)) {
+				/*    If the bird hits a block    */
+				if (NextYposition >= (BlockY - TILE_HEIGHT)
+						&& NextYposition <= (BlockY + TILE_HEIGHT)) {
 
 					NextXposition = BlockX;
 					NextYposition = BlockY;
@@ -124,6 +137,9 @@ int shot_bird_fsm(void) {
 
 		}
 
+		/*---------------------------------------------------------------------------------------
+		 *			                       Paint the bird
+		 * --------------------------------------------------------------------------------------*/
 		CalculateSpan(NextXposition, NextYposition);
 
 		imagesoverlay((unsigned short *) &Bird, (unsigned short *) &Background,
@@ -133,17 +149,25 @@ int shot_bird_fsm(void) {
 
 		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer,
 				(NextXposition - left_span), (NextYposition - up_span),
-				(TailWidth + rigth_span + left_span),
-				(TailHeight + up_span + down_span));
+				(TILE_WIDHT + rigth_span + left_span),
+				(TILE_HEIGHT + up_span + down_span));
 
 		Counter++;
 
-		for (int var = 0; var < 145000 * velocity; ++var) {
-			__asm("nop");
-		}
 
+		/*---------------------------------------------------------------------------------------
+		 *		        	returns if the bird hit an object or the screen
+		 * --------------------------------------------------------------------------------------*/
 		if (RetFlag == true) {
 			return 0;
+		}
+
+
+		/*---------------------------------------------------------------------------------------
+		*		        Wait a while until the next cycle, to give more or less speed :(
+		* --------------------------------------------------------------------------------------*/
+		for (int var = 0; var < 145000 * VELOCITY; ++var) {
+			__asm("nop");
 		}
 	}
 }
