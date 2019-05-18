@@ -10,10 +10,11 @@
 extern int matrix_pigs[3][2];
 extern int matrix_blocks[3][2];
 
-
+void paintBackground(void);
 void paint_pigs(void);
 void paintMap(void);
 void paint_lifes(void);
+void paint_blocks(void);
 
 #endif
 

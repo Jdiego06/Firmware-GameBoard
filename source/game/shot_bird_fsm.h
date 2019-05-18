@@ -18,6 +18,6 @@
 #define x0		0
 
 
-bool shot_bird_fsm(void);
+int shot_bird_fsm(void);
 
 #endif

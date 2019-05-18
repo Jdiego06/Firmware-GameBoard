@@ -12,9 +12,10 @@ double Ypos = 0;
 double Xpos = 0;
 double Counter = 0;
 
-bool shot_bird_fsm(void) {
+int shot_bird_fsm(void) {
 	killPig = false;
-	bool RetFlag = true;
+	destroyBlock = false;
+
 
 	//Get Joystick Values
 	int JoysticValueX = (joystick.Xpos / 1000) * 1.79 - 23.84;
@@ -38,6 +39,9 @@ bool shot_bird_fsm(void) {
 	NextXposition = Xpos - 4;
 
 	Counter = 0;
+	bool RetFlag=false;
+
+
 	while (true) {
 
 		Time = Counter * (duracionVuelo * Xpos + 7) / 75;
@@ -46,61 +50,78 @@ bool shot_bird_fsm(void) {
 		y0 + Ypos * Time * (abs(Ypos) / sqrt(pow(Xpos, 2) + pow(Ypos, 2)))
 				- (0.5) * gravity * (pow(Time, 2)));
 
+		//Calcula las posiciones
 		NextYposition = (int16_t) (JoysticValueY - NextYposition);
+		NextXposition = (int16_t) (NextXposition + 4);
+
+		//Calcula si el pajaro sale de la pantalla
 
 		if (NextYposition > (240 - TILE_H)) {
 			NextYposition = (240 - TILE_H);
 			coorDustx = NextXposition;
 			coorDusty = NextYposition;
-			RetFlag = false;
+			RetFlag = true;
 		}
-
-		NextXposition = (int16_t) (NextXposition + 4);
 
 		if (NextXposition >= (320 - TILE_W)) {
 			NextXposition = (320 - TILE_W);
 			coorDustx = NextXposition;
 			coorDusty = NextYposition;
-			RetFlag = false;
+			RetFlag = true;
 		}
 
-		//mira si el siguiente paso, choca con un bloque
-		for (int i = 0; i < 3; ++i) {
+		//mira si el pajaro choca contra un objeto
+
+		for (int i = 0; i < 3; i++) {
 
 			int BlockX = matrix_blocks[i][0];
 			int BlockY = matrix_blocks[i][1];
 
-			if (NextXposition > (BlockX - TILE_W)
-					&& NextXposition <= (BlockX + TILE_W)) {
-
-				if (NextYposition >= BlockY
-						&& NextYposition <= (BlockY + TILE_H)) {
-					FallBird(BlockX, BlockY);
-					return false;
-				}
-
-			}
-		}
-
-		//mira si el siguiente paso, choca con un marrano
-		for (int i = 0; i < 3; ++i) {
-
 			int PigX = matrix_pigs[i][0];
 			int PigY = matrix_pigs[i][1];
 
-			if (NextXposition >= PigX && NextXposition <= (PigX + TILE_W)) {
+			if ((NextXposition >= (PigX - TILE_W)
+					&& NextXposition <= (PigX + TILE_W))
+					|| (NextXposition >= (BlockX - TILE_W)
+							&& NextXposition <= (BlockX + TILE_W))) {
+
+				//choque contra marrano
 
 				if (NextYposition >= (PigY - TILE_H)
 						&& NextYposition <= (PigY + TILE_H)) {
-					coorDustx = PigX;
-					coorDusty = PigY;
+
 					NextXposition = PigX;
 					NextYposition = PigY;
+
+					coorDustx = PigX;
+					coorDusty = PigY;
+
 					PigToKill = i;
-					killPig = true;  //Kill Pig
-					RetFlag = false;
+					destroyBlock = false;
+					killPig = true;
+					RetFlag = true;
+
+					break;
 				}
+				//choque contra bloque
+				if (NextYposition >= (BlockY - TailHeight)
+						&& NextYposition <= (BlockY + TILE_H)) {
+
+					NextXposition = BlockX;
+					NextYposition = BlockY;
+
+					coorDustx = BlockX;
+					coorDusty = BlockY;
+
+					BlockToDestroy = i;
+					destroyBlock = true;
+					killPig = false;
+					RetFlag = true;
+					break;
+				}
+
 			}
+
 		}
 
 		CalculateSpan(NextXposition, NextYposition);
@@ -121,38 +142,9 @@ bool shot_bird_fsm(void) {
 			__asm("nop");
 		}
 
-		if (RetFlag == false) {
-			return false;
+		if (RetFlag == true) {
+			return 0;
 		}
-
 	}
 }
 
-void FallBird(int X, int Y) {
-
-	NextXposition = X - 16;
-	NextYposition = Y;
-
-	coorDustx = NextXposition;
-	coorDusty = 224;
-
-	for (NextYposition; NextYposition < 224; NextYposition++) {
-
-		CalculateSpan(NextXposition, NextYposition);
-
-		imagesoverlay((unsigned short *) &Bird, (unsigned short *) &Background,
-				(unsigned short *) &actual_sprint_buffer, 320, NextXposition,
-				NextYposition, left_span, rigth_span, up_span, down_span, 16,
-				16, 0Xffff);
-
-		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer,
-				(NextXposition - left_span), (NextYposition - up_span),
-				(TailWidth + rigth_span + left_span),
-				(TailHeight + up_span + down_span));
-
-		for (int var = 0; var < 40000 * velocity; ++var) {
-			__asm("nop");
-		}
-
-	}
-}

@@ -20,7 +20,6 @@ int main(void) {
 	MCUFRIEND_kbv_init();
 	ret=MCUFRIEND_kbv_readID();
 	MCUFRIEND_kbv_begin(ret);
-	//raise clock to 120MHz
 	BOARD_InitBootClocks();
 
 while(1){

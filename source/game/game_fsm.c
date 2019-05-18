@@ -35,11 +35,13 @@ game_states game_state = init;
 
 //remaining_shots
 int remaining_shots;
-
 int coorDustx;
 int coorDusty;
 int PigToKill;
+int BlockToDestroy;
+
 bool killPig;
+bool destroyBlock;
 
 //---------------------- Subroutines -----------------
 
@@ -57,14 +59,24 @@ void paintCaratule(void) {
 	}
 }
 
+bool ChekWin() {
+
+	for (int i = 0; i < sizeof(matrix_pigs) / sizeof(matrix_pigs[0]); i++) {
+		if (matrix_pigs[i][0] != 500) {
+			return false;
+		}
+	}
+	return true;
+}
+
 void game_fsm(void) {
 
 	switch (game_state) {
 	case init:
 		MCUFRIEND_kbv_setRotation(1);
 		Adafruit_GFX_setRotation(3);
-		//paintCaratule();
-		MCUFRIEND_kbv_fillBMP(Caratula1);
+		paintCaratule();
+		//MCUFRIEND_kbv_fillBMP(Caratula1);
 		Adafruit_GFX_setTextColorB(0xFFFF, 0x0000);
 		Adafruit_GFX_setFont(&angrybirds_regular20pt7b);
 		Adafruit_GFX_setCursor(0, 35);
@@ -84,65 +96,60 @@ void game_fsm(void) {
 		break;
 
 	case painting_map:
-		remaining_shots = 3;
+		//BTNA_FLAG = 0;
+		//BTNB_FLAG = 0;
+		remaining_shots = (INIT_SHOTS);
 		paintBackground();
 		paint_lifes();
 		paint_pigs();
+		paint_blocks();
 		game_state = gaming;
 		break;
 
 	case gaming:
 
-		if (BTNA_FLAG == 1) {
-			BTNA_FLAG = 0;
-			//PAINT GAME PAUSED MESSAGE
-			Adafruit_GFX_setCursor(85, 120);
-			Adafruit_GFX_write_String((uint8_t *) "Game Paused");
-			game_state = pause;
-		}
-
 		if (BTNB_FLAG == 1) {
 			BTNB_FLAG = 0;
 			game_state = shot_bird;
+		} else {
+			fix_shot_fsm();
 		}
-
-		fix_shot_fsm();
-		//bomb_fsm();
 
 		break;
 	case shot_bird:
-
-		if (shot_bird_fsm()) {
-			game_state = gaming;
-		} else {
-			game_state = draw_dust;
-		}
-		MCUFRIEND_kbv_print_tail(&Background[(320 * 220)], 0, 220, 320, 20);
-		--remaining_shots;
-		//BTNB_FLAG = 0; //FOR ERROR BUTTON PRESS WHILE SHOT BIRD
+		shot_bird_fsm();
+		remaining_shots--;
+		game_state = draw_dust;
 		break;
 
 	case draw_dust:
 		if (paintDust()) {
-			paint_lifes();
-			game_state = gaming;
-		}
-		break;
-
-	case pause:
-		if (BTNA_FLAG == 1) {
-			BTNA_FLAG = 0;
-			//Clear announcement
-			// Select background in position 320 in x, 240 in y, paint 30 px in y
-			MCUFRIEND_kbv_print_tail(&Background[(320 * 100)], 0, 100, 320, 30);
-			game_state = gaming;
+			if (ChekWin() || (remaining_shots == 0)) {
+				game_state = gameover;
+			} else {
+				paint_lifes();
+				game_state = gaming;
+			}
 		}
 		break;
 
 	case gameover:
-		if (BTNA_FLAG == 1) {
+
+		if (ChekWin()) {
+			Adafruit_GFX_setCursor(100, 120);
+			Adafruit_GFX_write_String((uint8_t *) "You Win");
+		} else {
+			Adafruit_GFX_setCursor(100, 120);
+			Adafruit_GFX_write_String((uint8_t *) "You Loose");
+		}
+		Adafruit_GFX_setCursor(70, 150);
+		Adafruit_GFX_write_String((uint8_t *) "Press Any Button");
+
+		if (BTNA_FLAG == 1 || BTNB_FLAG == 1) {
 			BTNA_FLAG = 0;
-			game_state = painting_map;
+			BTNB_FLAG = 0;
+			//MCUFRIEND_kbv_print_tail(&Background[(320 * 100)], 0, 100, 320, 30);
+			game_state = init;
 		}
 		break;
 	default:

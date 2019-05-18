@@ -20,4 +20,6 @@ extern int16_t down_span;
 void fix_shot_fsm(void);
 extern void CalculateSpan(int16_t x, int16_t y);
 
+
+
 #endif

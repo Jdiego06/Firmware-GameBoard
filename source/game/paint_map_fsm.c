@@ -1,7 +1,7 @@
 #include "paint_map_fsm.h"
 
-int matrix_pigs[3][2] = { { 100, 80 }, { 150, 100 }, { 200, 150 } };
-int matrix_blocks[3][2] = { { 100, 96 }, { 150, 116 }, { 200, 166 } };
+int matrix_pigs[3][2] = { { 100, 80 }, { 180, 40 }, { 220, 135 } };
+int matrix_blocks[3][2] = { { 100, 96 }, { 180, 56 }, { 220, 151 } };
 
 void paintBackground(void) {
 	//paint Background
@@ -15,7 +15,7 @@ void paint_lifes(void) {
 			20);
 
 //Paint Birds of lifes
-	for (int i = 0; i < remaining_shots; ++i) {
+	for (int i = 0; i < remaining_shots-1; ++i) {
 
 		imagesoverlay((unsigned short *) Bird, (unsigned short *) Background,
 				(unsigned short *) actual_sprint_buffer, 320, 16 * i + 3 * i, 4,
@@ -26,10 +26,6 @@ void paint_lifes(void) {
 	}
 	LastX = 35;
 	LastY = 75;
-
-	// DELETE DOWN BAND
-	//MCUFRIEND_kbv_print_tail(&Background[(320 * 188)], 0, 188, 320, 30);
-
 }
 
 void paint_pigs(void) {
@@ -42,6 +38,12 @@ void paint_pigs(void) {
 
 		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, matrix_pigs[i][0],
 				matrix_pigs[i][1], 16, 16);
+	}
+
+}
+
+void paint_blocks(void) {
+	for (int i = 0; i < 3; i++) {
 
 		imagesoverlay((unsigned short *) BlockTwo,
 				(unsigned short *) Background,
@@ -52,5 +54,4 @@ void paint_pigs(void) {
 		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, matrix_blocks[i][0],
 				matrix_blocks[i][1], 16, 16);
 	}
-
 }

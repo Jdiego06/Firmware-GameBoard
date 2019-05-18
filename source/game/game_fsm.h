@@ -44,11 +44,15 @@
 #define Bird BirdOne
 
 
+#define INIT_SHOTS 3
+
 //Define tiles size
 #define TILE_W 16
 #define TILE_H 16
 #define SPANX 16
 #define SPANY 16
+
+
 
 extern uint16_t actual_sprint_buffer[(TILE_W + (2 * SPANX))
 		* ((2 * SPANY) + (2 * TILE_H))]; //define size according to maximum convert image
@@ -58,13 +62,15 @@ extern int remaining_shots;
 extern int coorDustx; //Coors of pig that will be killed
 extern int coorDusty; //Coors of pig that will be killed
 extern int PigToKill;
+extern int BlockToDestroy;
 extern bool killPig;
+extern bool destroyBlock;
+//extern uint16_t *Bird;
 
 typedef enum {
 	init,
 	waitingforstart,
 	painting_map,
-	pause,
 	gaming,
 	draw_dust,
 	shot_bird,

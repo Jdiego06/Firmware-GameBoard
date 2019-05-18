@@ -3,6 +3,17 @@
 int counter = 0;
 bool paintDust(void) {
 
+	//Delete pig or block from matrix
+	if (killPig) {
+		matrix_pigs[PigToKill][0] = 500;
+		matrix_pigs[PigToKill][1] = 500;
+	}
+	if (destroyBlock) {
+		matrix_blocks[BlockToDestroy][0] = 500;
+		matrix_blocks[BlockToDestroy][1] = 500;
+	}
+	paint_blocks();
+
 	switch ((counter / TimeDust)) {
 	case 0:
 
@@ -57,10 +68,6 @@ bool paintDust(void) {
 
 	default:
 		counter = 0;
-		if (killPig) {
-			matrix_pigs[PigToKill][0] = 500;
-			matrix_pigs[PigToKill][1] = 500;
-		}
 		return true;
 	}
 

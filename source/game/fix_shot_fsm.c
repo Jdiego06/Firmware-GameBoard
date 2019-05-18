@@ -11,8 +11,6 @@ int16_t down_span;
 
 void fix_shot_fsm(void) {
 
-
-
 	if (JOYSTICK_FLAG == 1) {
 		JOYSTICK_FLAG = 0;
 
@@ -35,8 +33,7 @@ void fix_shot_fsm(void) {
 
 		CalculateSpan(JoysticValueX, JoysticValueY);
 
-		imagesoverlay((unsigned short *) &Bird,
-				(unsigned short *) &Background,
+		imagesoverlay((unsigned short *) &Bird, (unsigned short *) &Background,
 				(unsigned short *) &actual_sprint_buffer, 320, JoysticValueX,
 				JoysticValueY, left_span, rigth_span, up_span, down_span, 16,
 				16, 0Xffff);
