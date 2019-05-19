@@ -6,7 +6,7 @@
  * buy me a beer in return. Poul-Henning Kamp
  * --------------------------------------------------------------------------------------*/
 
- /*---------------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------------------
  * Ing: Juan Diego Cardona
  * Ing: Cristian Camilo Osorio
  * Company: UCO
@@ -18,18 +18,16 @@
  * 				of the Joystic.
  * --------------------------------------------------------------------------------------*/
 
-
 #include "fix_shot_fsm.h"
 #include "game_fsm.h"
 
-int16_t LastX;
-int16_t LastY;
+int16_t last_x_position;
+int16_t last_y_position;
 
 int16_t left_span;
 int16_t rigth_span;
 int16_t up_span;
 int16_t down_span;
-
 
 /*---------------------------------------------------------------------------------------
  *			This function reads the value of the joystic and adjusts
@@ -39,8 +37,8 @@ int16_t down_span;
  *			the bird in the corresponding position.
  * --------------------------------------------------------------------------------------*/
 
-int JoysticValueX=INIT_X_VALUE;
-int JoysticValueY=INIT_Y_VALUE;
+int joystick_x_value = INIT_X_VALUE;
+int joystick_y_value = INIT_Y_VALUE;
 
 void fix_shot_fsm(void) {
 
@@ -48,33 +46,31 @@ void fix_shot_fsm(void) {
 		JOYSTICK_FLAG = 0;
 
 		/*    Get the joystick values ​​and convert them to pixels    */
-		JoysticValueX = (joystick.Xpos / 1000) * 1.79 - 23.84;
-		JoysticValueY = (joystick.Ypos / 1000) * 1.52 + 24.74;
-
+		joystick_x_value = (joystick.Xpos / 1000) * 1.79 - 23.84;
+		joystick_y_value = (joystick.Ypos / 1000) * 1.52 + 24.74;
 
 		/*    Adjust the values ​​if necessary    */
-		if (JoysticValueX > MaxX) {
-			JoysticValueX = MaxX;
+		if (joystick_x_value > MAX_X) {
+			joystick_x_value = MAX_X;
 		}
 
-		if (JoysticValueY > MaxY) {
-			JoysticValueY = MaxY;
+		if (joystick_y_value > MAX_Y) {
+			joystick_y_value = MAX_Y;
 		}
 
-		if (JoysticValueY < MinY) {
-			JoysticValueY = MinY;
+		if (joystick_y_value < MinY) {
+			joystick_y_value = MinY;
 		}
-
 
 		/*    Paint the bird in TFT    */
-		CalculateSpan(JoysticValueX, JoysticValueY);
-		imagesoverlay((unsigned short *) &Bird, (unsigned short *) &Background,
-				(unsigned short *) &actual_sprint_buffer, 320, JoysticValueX,
-				JoysticValueY, left_span, rigth_span, up_span, down_span, 16,
+		calculate_span(joystick_x_value, joystick_y_value);
+		imagesoverlay(Bird, Background,
+				(unsigned short *) &actual_sprint_buffer, 320, joystick_x_value,
+				joystick_y_value, left_span, rigth_span, up_span, down_span, 16,
 				16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail((unsigned short *) &actual_sprint_buffer,
-				(JoysticValueX - left_span), (JoysticValueY - up_span),
+		MCUFRIEND_kbv_print_tail(actual_sprint_buffer,
+				(joystick_x_value - left_span), (joystick_y_value - up_span),
 				(TILE_WIDHT + rigth_span + left_span),
 				(TILE_HEIGHT + up_span + down_span));
 
@@ -88,24 +84,24 @@ void fix_shot_fsm(void) {
  *			coordinates.
  * --------------------------------------------------------------------------------------*/
 
-void CalculateSpan(int16_t x, int16_t y) {
+void calculate_span(int16_t x, int16_t y) {
 
-	if ((LastX - x) > 0) {
+	if ((last_x_position - x) > 0) {
 		left_span = 0;
-		rigth_span = (LastX - x);
+		rigth_span = (last_x_position - x);
 	} else {
-		left_span = (x - LastX);
+		left_span = (x - last_x_position);
 		rigth_span = 0;
 	}
 
-	if ((LastY - y) > 0) {
+	if ((last_y_position - y) > 0) {
 		up_span = 0;
-		down_span = (LastY - y);
+		down_span = (last_y_position - y);
 	} else {
-		up_span = (y - LastY);
+		up_span = (y - last_y_position);
 		down_span = 0;
 	}
-	LastX = x;
-	LastY = y;
+	last_x_position = x;
+	last_y_position = y;
 }
 

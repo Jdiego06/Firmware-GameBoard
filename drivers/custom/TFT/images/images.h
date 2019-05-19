@@ -10,7 +10,7 @@
 
 extern const unsigned short Background_1[76800];
 extern const unsigned short Background_2[76800];
-extern const unsigned short Background[76800];
+//extern const unsigned short Background[76800];
 
 extern const unsigned short Caratula_1[76800];
 extern const unsigned short Caratula_2[76800];

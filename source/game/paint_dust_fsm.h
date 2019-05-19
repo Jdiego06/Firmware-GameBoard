@@ -26,10 +26,10 @@
 #include <stdbool.h>
 
 /*    Duration of dust cloud    */
-#define TimeDust 8
+#define DUST_DURATION 8
 
 
-extern bool paintDust(void);
+extern bool paint_dust(void);
 
 #endif
 

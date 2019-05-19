@@ -22,10 +22,10 @@
 
 #include "paint_dust_fsm.h"
 
-uint8_t counter = 0;
+uint8_t tile_counter = 0;
 
 
-bool paintDust(void) {
+bool paint_dust(void) {
 
 	/*---------------------------------------------------------------------------------------
 	 *			Eliminate a pig, or a block of the matrices,
@@ -33,16 +33,16 @@ bool paintDust(void) {
 	 *			of the screen.
 	 * --------------------------------------------------------------------------------------*/
 
-	if (killPig) {
-		matrix_pigs[PigToKill][0] = 500;
-		matrix_pigs[PigToKill][1] = 500;
-		killPig=false;
+	if (kill_pig) {
+		matrix_pigs[pig_to_kill][0] = 500;
+		matrix_pigs[pig_to_kill][1] = 500;
+		kill_pig=false;
 		paint_blocks();
 	}
-	if (destroyBlock) {
-		matrix_blocks[BlockToDestroy][0] = 500;
-		matrix_blocks[BlockToDestroy][1] = 500;
-		destroyBlock=false;
+	if (destroy_block) {
+		matrix_blocks[block_to_destroy][0] = 500;
+		matrix_blocks[block_to_destroy][1] = 500;
+		destroy_block=false;
 		paint_blocks();
 	}
 
@@ -52,63 +52,63 @@ bool paintDust(void) {
 	*			and ends by painting the original background.
 	* --------------------------------------------------------------------------------------*/
 
-	switch ((counter / TimeDust)) {
+	switch ((tile_counter / DUST_DURATION)) {
 	case 0:
 
-		imagesoverlay((unsigned short *) DustOne, (unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, coorDustx,
-				coorDusty, 0, 0, 0, 0, 16, 16, 0Xffff);
+		imagesoverlay((unsigned short *) DustOne,Background,
+				(unsigned short *) actual_sprint_buffer, 320, coor_dusty_x,
+				coor_dusty_y, 0, 0, 0, 0, 16, 16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coorDustx, coorDusty, 16,
+		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coor_dusty_x, coor_dusty_y, 16,
 				16);
 		break;
 
 	case 1:
 
-		imagesoverlay((unsigned short *) DustTwo, (unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, coorDustx,
-				coorDusty, 0, 0, 0, 0, 16, 16, 0Xffff);
+		imagesoverlay((unsigned short *) DustTwo, Background,
+				(unsigned short *) actual_sprint_buffer, 320, coor_dusty_x,
+				coor_dusty_y, 0, 0, 0, 0, 16, 16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coorDustx, coorDusty, 16,
+		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coor_dusty_x, coor_dusty_y, 16,
 				16);
 		break;
 
 	case 2:
 
 		imagesoverlay((unsigned short *) DustThree,
-				(unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, coorDustx,
-				coorDusty, 0, 0, 0, 0, 16, 16, 0Xffff);
+				Background,
+				(unsigned short *) actual_sprint_buffer, 320, coor_dusty_x,
+				coor_dusty_y, 0, 0, 0, 0, 16, 16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coorDustx, coorDusty, 16,
+		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coor_dusty_x, coor_dusty_y, 16,
 				16);
 		break;
 
 	case 3:
 
 		imagesoverlay((unsigned short *) DustFour,
-				(unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, coorDustx,
-				coorDusty, 0, 0, 0, 0, 16, 16, 0Xffff);
+				Background,
+				(unsigned short *) actual_sprint_buffer, 320, coor_dusty_x,
+				coor_dusty_y, 0, 0, 0, 0, 16, 16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coorDustx, coorDusty, 16,
+		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coor_dusty_x, coor_dusty_y, 16,
 				16);
 		break;
 
 	case 4:
-		imagesoverlay((unsigned short *) white, (unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, coorDustx,
-				coorDusty, 0, 0, 0, 0, 16, 16, 0Xffff);
+		imagesoverlay((unsigned short *) white,Background,
+				(unsigned short *) actual_sprint_buffer, 320, coor_dusty_x,
+				coor_dusty_y, 0, 0, 0, 0, 16, 16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coorDustx, coorDusty, 16,
+		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, coor_dusty_x, coor_dusty_y, 16,
 				16);
 		break;
 
 	default:
-		counter = 0;
+		tile_counter = 0;
 		return true;
 	}
 
-	counter++;
+	tile_counter++;
 	return false;
 }

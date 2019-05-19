@@ -17,7 +17,6 @@
 #ifndef GAME_FSM_H_
 #define GAME_FSM_H_
 
-
 #include "JOYSTICK/JOYSTICK.h"
 #include "TFT/images/images.h"
 #include "TFT/MCUFRIEND_kbv.h"
@@ -30,9 +29,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-
-#define Bird BirdOne
-#define INIT_SHOTS 4
+/*    Game features    */
+#define LEVEL_SHOTS 5
+#define WORLDS_NUMBER 3
 
 /*    Tiles sizes    */
 #define TILE_WIDHT 16
@@ -40,30 +39,31 @@
 #define SPANX 16
 #define SPANY 16
 
-
 /*    Define size of buffer according to maximum convert image    */
-extern uint16_t actual_sprint_buffer[(TILE_WIDHT + (2 * SPANX))*((2 * SPANY) + (2 * TILE_HEIGHT))];
+extern uint16_t actual_sprint_buffer[(TILE_WIDHT + (2 * SPANX))
+		* ((2 * SPANY) + (2 * TILE_HEIGHT))];
 
+extern uint8_t remaining_shots;
+extern uint8_t pig_to_kill;
+extern uint8_t block_to_destroy;
 
-extern int remaining_shots;
-extern int coorDustx;
-extern int coorDusty;
-extern int PigToKill;
-extern int BlockToDestroy;
-extern bool killPig;
-extern bool destroyBlock;
+extern uint16_t coor_dusty_x;
+extern uint16_t coor_dusty_y;
 
+extern bool kill_pig;
+extern bool destroy_block;
 
 /*    States of the game    */
 typedef enum {
 	init,
-	waitingforstart,
+	waiting_for_start,
 	painting_map,
 	gaming,
 	draw_dust,
 	shot_bird,
-	gameover,
-}game_states;
+	game_over,
+	game_complete,
+} game_states;
 
 void game_fsm(void);
 #endif

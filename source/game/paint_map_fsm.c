@@ -27,11 +27,12 @@
 const unsigned short* piggs[3] = { PigOne, PigTwo, PigThree };
 const unsigned short* birds[3] = { BirdOne, BirdTwo, BirdThree };
 
-//const unsigned short* Backrounds[1] = { Background_1}; //, Background_2 };
-//const unsigned short Background[76800] = { };
 
-int matrix_pigs[3][2] = { };
-int matrix_blocks[3][2] = { };
+unsigned short* Background;
+unsigned short* Bird;
+
+int matrix_pigs[10][2] = { };
+int matrix_blocks[10][2] = { };
 
 /*---------------------------------------------------------------------------------------
  *			Matrices of elements: The coordinates (x , y) of the pigs and
@@ -45,39 +46,54 @@ int matrix_pigs1[3][2] = { { 90, 120 }, { 160, 60 }, { 200, 200 } };
 int matrix_blocks1[3][2] = { { 90, 136 }, { 160, 76 }, { 200, 216 } };
 
 int matrix_pigs2[3][2] = { { 120, 100 }, { 180, 40 }, { 280, 100 } };
-int matrix_blocks2[3][2] = { { 120, 116 }, { 180, 56 }, { 280, 116 } };
+int matrix_blocks2[8][2] = { { 120, 116 }, { 180, 56 }, { 280, 116 } };
 
 /*---------------------------------------------------------------------------------------
  *				this function selects one of the worlds defined above
  * --------------------------------------------------------------------------------------*/
 
-void SelectWorld(int world) {
-
-	//int map=pseudoRandom(2);
+void select_world(int world) {
 
 	switch (world) {
 	case 0:
-		matriscopy(matrix_pigs, matrix_pigs0, 6);
-		matriscopy(matrix_blocks, matrix_blocks0, 6);
+		matris_copy(matrix_pigs, matrix_pigs0, 6);
+		matris_copy(matrix_blocks, matrix_blocks0, 6);
 		break;
 	case 1:
-		matriscopy(matrix_pigs, matrix_pigs1, 6);
-		matriscopy(matrix_blocks, matrix_blocks1, 6);
+		matris_copy(matrix_pigs, matrix_pigs1, 6);
+		matris_copy(matrix_blocks, matrix_blocks1, 6);
 		break;
 	case 2:
-		matriscopy(matrix_pigs, matrix_pigs2, 6);
-		matriscopy(matrix_blocks, matrix_blocks2, 6);
+		matris_copy(matrix_pigs, matrix_pigs2, 6);
+		matris_copy(matrix_blocks, matrix_blocks2, 6);
 		break;
 	default:
 		break;
 	}
+
+	/*    Fill void elements of arrays with values that exceeds limits of screen    */
+	for (int i = 0; i < (sizeof(matrix_pigs) / sizeof(matrix_pigs[0])); i++) {
+		if (matrix_pigs[i][1] == 0) {
+			matrix_pigs[i][1] = 500;
+			matrix_pigs[i][0] = 500;
+		}
+	}
+
+	for (int i = 0; i < (sizeof(matrix_blocks) / sizeof(matrix_blocks[0]));
+			i++) {
+		if (matrix_blocks[i][1] == 0) {
+			matrix_blocks[i][1] = 500;
+			matrix_blocks[i][0] = 500;
+		}
+	}
+
 }
 
 /*---------------------------------------------------------------------------------------
  *			           Paints the game's cover in a "random" way.
  * --------------------------------------------------------------------------------------*/
 
-void paintCaratule(void) {
+void paint_caratule(void) {
 	int numero;
 	numero = ((joystick.Xpos + joystick.Ypos) % 2);
 
@@ -92,22 +108,50 @@ void paintCaratule(void) {
 }
 
 /*---------------------------------------------------------------------------------------
- *			                   Paint the game background.
+ *			                   Select the Bird to game
  * --------------------------------------------------------------------------------------*/
 
-void paintBackground(int world) {
+void select_bird(int world) {
 
-	/*switch (world) {
+	switch (world) {
 	case 0:
-		matriscopy(Background, Backrounds[0], 76800);
+		Bird = (unsigned short *) BirdOne;
 		break;
 	case 1:
-		matriscopy(Background, Backrounds[0], 76800);
+		Bird = (unsigned short *) BirdThree;
 		break;
 	default:
-		break;
-	}*/
+		Bird = (unsigned short *) BirdOne;
+	}
 
+}
+
+/*---------------------------------------------------------------------------------------
+ *	                 		  Select the background.
+ * --------------------------------------------------------------------------------------*/
+
+void select_background(int world) {
+
+	switch (world) {
+	case 0:
+		Background = (unsigned short *) Background_1;
+		break;
+	case 1:
+		Background = (unsigned short *) Background_2;
+		break;
+	default:
+		Background = (unsigned short *) Background_1;
+	}
+
+	paint_background();
+
+}
+
+/*---------------------------------------------------------------------------------------
+ *	                 			  Paint the background.
+ * --------------------------------------------------------------------------------------*/
+
+void paint_background(void) {
 	MCUFRIEND_kbv_fillBMP(Background);
 }
 
@@ -131,8 +175,8 @@ void paint_lifes(void) {
 		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, 16 * i + 3 * i, 4, 16,
 				16);
 	}
-	LastX = 35;
-	LastY = 75;
+	last_x_position = 35;
+	last_y_position = 75;
 }
 
 /*---------------------------------------------------------------------------------------
@@ -142,17 +186,19 @@ void paint_lifes(void) {
 
 void paint_pigs(void) {
 
-	for (int i = 0; i < 3; i++) {
-		uint8_t PigNumber = pseudoRandom(2);
-		imagesoverlay((unsigned short *) piggs[PigNumber],
-				(unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320, matrix_pigs[i][0],
-				matrix_pigs[i][1], 0, 0, 0, 0, 16, 16, 0Xffff);
+	for (int i = 0; i < (sizeof(matrix_pigs) / sizeof(matrix_pigs[0])); i++) {
+		if (matrix_pigs[i][1] != 500) {
+			uint8_t PigNumber = pseudo_random(2);
+			imagesoverlay((unsigned short *) piggs[PigNumber],
+					(unsigned short *) Background,
+					(unsigned short *) actual_sprint_buffer, 320,
+					matrix_pigs[i][0], matrix_pigs[i][1], 0, 0, 0, 0, 16, 16,
+					0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, matrix_pigs[i][0],
-				matrix_pigs[i][1], 16, 16);
+			MCUFRIEND_kbv_print_tail(actual_sprint_buffer, matrix_pigs[i][0],
+					matrix_pigs[i][1], 16, 16);
+		}
 	}
-
 }
 
 /*---------------------------------------------------------------------------------------
@@ -161,26 +207,27 @@ void paint_pigs(void) {
  * --------------------------------------------------------------------------------------*/
 
 void paint_blocks(void) {
-	for (int i = 0; i < 3; i++) {
-		imagesoverlay((unsigned short *) BlockTwo,
-				(unsigned short *) Background,
-				(unsigned short *) actual_sprint_buffer, 320,
-				matrix_blocks[i][0], matrix_blocks[i][1], 0, 0, 0, 0, 16, 16,
-				0Xffff);
+	for (int i = 0; i < (sizeof(matrix_blocks) / sizeof(matrix_blocks[0]));
+			i++) {
+		if (matrix_blocks[i][1] != 500) {
+			imagesoverlay((unsigned short *) BlockTwo,
+					(unsigned short *) Background,
+					(unsigned short *) actual_sprint_buffer, 320,
+					matrix_blocks[i][0], matrix_blocks[i][1], 0, 0, 0, 0, 16,
+					16, 0Xffff);
 
-		MCUFRIEND_kbv_print_tail(actual_sprint_buffer, matrix_blocks[i][0],
-				matrix_blocks[i][1], 16, 16);
+			MCUFRIEND_kbv_print_tail(actual_sprint_buffer, matrix_blocks[i][0],
+					matrix_blocks[i][1], 16, 16);
+		}
 	}
 }
-
-
 
 /*---------------------------------------------------------------------------------------
  *			 Generates a number between 0 and 'range' according to the
  *			 current value of the pit
  * --------------------------------------------------------------------------------------*/
 
-int pseudoRandom(uint8_t range) {
+int pseudo_random(uint8_t range) {
 	int a = (int) PIT_GetCurrentTimerCount(PIT, kPIT_Chnl_0);
 	return (int) (a % (range + 1));
 }
@@ -188,6 +235,6 @@ int pseudoRandom(uint8_t range) {
 /*---------------------------------------------------------------------------------------
  *                        			Copy matrix
  * --------------------------------------------------------------------------------------*/
-void matriscopy(void * destmat, void * srcmat, int size) {
+void matris_copy(void * destmat, void * srcmat, int size) {
 	memcpy(destmat, srcmat, size * sizeof(int));
 }

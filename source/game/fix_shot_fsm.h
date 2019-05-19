@@ -14,7 +14,6 @@
  * Project: Angry Birds
  * --------------------------------------------------------------------------------------*/
 
-
 #ifndef FIX_SHOT_FSM
 #define FIX_SHOT_FSM
 
@@ -24,26 +23,23 @@
 #include  "Adafruit_GFX.h"
 #include  "utilities.h"
 
-
 /*    Range of bird positions (in px)    */
-#define MaxX 35
-#define MaxY 110
+#define MAX_X 35
+#define MAX_Y 110
 #define MinY 40
 #define INIT_X_VALUE 35
 #define INIT_Y_VALUE 75
 
-
-extern int16_t LastX;
-extern int16_t LastY;
+extern int16_t last_x_position;
+extern int16_t last_y_position;
 extern int16_t left_span;
 extern int16_t rigth_span;
 extern int16_t up_span;
 extern int16_t down_span;
-extern int JoysticValueX;
-extern int JoysticValueY;
-
+extern int joystick_x_value;
+extern int joystick_y_value;
 
 extern void fix_shot_fsm(void);
-extern void CalculateSpan(int16_t x, int16_t y);
+extern void calculate_span(int16_t x, int16_t y);
 
 #endif

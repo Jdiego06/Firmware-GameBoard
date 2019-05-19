@@ -32,8 +32,8 @@
  *								physical constants of the world
  * --------------------------------------------------------------------------------------*/
 #define DISTANCE_FLIGHT 0.5
-#define VELOCITY 2
-#define GRAVITY 5.2
+#define VELOCITY 1
+#define GRAVITY 5
 
 
 int shot_bird_fsm(void);

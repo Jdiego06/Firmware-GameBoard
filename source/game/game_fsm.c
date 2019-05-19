@@ -6,7 +6,7 @@
  * buy me a beer in return. Poul-Henning Kamp
  * --------------------------------------------------------------------------------------*/
 
- /*---------------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------------------
  * Ing: Juan Diego Cardona
  * Ing: Cristian Camilo Osorio
  * Company: UCO
@@ -30,31 +30,33 @@
 #include "TFT/Fonts/AbRegular.h"
 #include "TFT/Fonts/angrybirds_regular12pt7b.h"
 
-
 /*    Variables, used for by other fsm(s)    */
-int remaining_shots;
-int coorDustx;
-int coorDusty;
-int PigToKill;
-int BlockToDestroy;
-bool killPig;
-bool destroyBlock;
-uint16_t actual_sprint_buffer[(TILE_WIDHT + (2 * SPANX))*((2 * SPANY) + (2 * TILE_HEIGHT))];
+uint16_t coor_dusty_x;
+uint16_t coor_dusty_y;
+uint8_t remaining_shots;
 
+uint8_t pig_to_kill;
+uint8_t block_to_destroy;
+bool kill_pig;
+bool destroy_block;
+
+uint16_t actual_sprint_buffer[(TILE_WIDHT + (2 * SPANX))
+		* ((2 * SPANY) + (2 * TILE_HEIGHT))];
 
 /*    State initial if the game (after reset)    */
 game_states game_state = init;
 
-
 /*    Initial world (after reset)    */
-int world=0;
+uint8_t world = 0;
 
+/*    Initial shots (after reset)    */
+uint8_t remaining_shots = LEVEL_SHOTS;
 
 /*---------------------------------------------------------------------------------------
  * 			This function verifies if all the pigs have been destroyed.
  * --------------------------------------------------------------------------------------*/
 
-bool ChekWin() {
+bool check_win() {
 	for (int i = 0; i < sizeof(matrix_pigs) / sizeof(matrix_pigs[0]); i++) {
 		if (matrix_pigs[i][0] != 500) {
 			return false;
@@ -74,7 +76,7 @@ void game_fsm(void) {
 	case init:
 		MCUFRIEND_kbv_setRotation(1);
 		Adafruit_GFX_setRotation(3);
-		paintCaratule();
+		paint_caratule();
 		Adafruit_GFX_setTextColorB(0xFFFF, 0x0000);
 		Adafruit_GFX_setFont(&angrybirds_regular20pt7b);
 		Adafruit_GFX_setCursor(0, 35);
@@ -82,10 +84,10 @@ void game_fsm(void) {
 		Adafruit_GFX_setCursor(5, 238);
 		Adafruit_GFX_setFont(&angrybirds_regular12pt7b);
 		Adafruit_GFX_write_String((uint8_t *) "ANGRY BIRDS");
-		game_state = waitingforstart;
+		game_state = waiting_for_start;
 		break;
 
-	case waitingforstart:
+	case waiting_for_start:
 		if (BTNA_FLAG == 1 || BTNB_FLAG == 1) {
 			BTNA_FLAG = 0;
 			BTNB_FLAG = 0;
@@ -94,9 +96,9 @@ void game_fsm(void) {
 		break;
 
 	case painting_map:
-		remaining_shots = INIT_SHOTS;
-		paintBackground(world);
-		SelectWorld(world);
+		select_background(world);
+		select_world(world);
+		select_bird(world);
 		paint_lifes();
 		paint_pigs();
 		paint_blocks();
@@ -119,9 +121,9 @@ void game_fsm(void) {
 		break;
 
 	case draw_dust:
-		if (paintDust()) {
-			if (ChekWin() || (remaining_shots == 0)) {
-				game_state = gameover;
+		if (paint_dust()) {
+			if (check_win() || (remaining_shots == 0)) {
+				game_state = game_over;
 			} else {
 				paint_lifes();
 				game_state = gaming;
@@ -129,22 +131,37 @@ void game_fsm(void) {
 		}
 		break;
 
-	case gameover:
-		if (ChekWin()) {
-			Adafruit_GFX_setCursor(100, 120);
+	case game_over:
+		BTNA_FLAG = 0;
+		BTNB_FLAG = 0;
+		if (check_win()) {
+			Adafruit_GFX_setCursor(120, 120);
 			Adafruit_GFX_write_String((uint8_t *) "You Win");
-			remaining_shots+=4;
+			remaining_shots += LEVEL_SHOTS;
 			world++;
 		} else {
 			Adafruit_GFX_setCursor(100, 120);
 			Adafruit_GFX_write_String((uint8_t *) "You Lose");
-			world=0;
+			remaining_shots = LEVEL_SHOTS;
+			world = 0;
 		}
 		Adafruit_GFX_setCursor(70, 150);
 		Adafruit_GFX_write_String((uint8_t *) "Press Any Button");
 
-		game_state = waitingforstart;
+		if (world == WORLDS_NUMBER) {
+			game_state = game_complete;
+		} else {
+			game_state = waiting_for_start;
+		}
 
+		break;
+
+	case game_complete:
+		if (BTNA_FLAG == 1 || BTNB_FLAG == 1) {
+			BTNA_FLAG = 0;
+			BTNB_FLAG = 0;
+			game_state = init;
+		}
 		break;
 
 	default:
