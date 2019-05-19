@@ -1,7 +1,4 @@
-﻿
-
-
-> Written with [StackEdi# Firmware del juego  Juego:  ~~Angry Birds~~" para el curso de sistemas embebidos  2019-1.
+﻿# Firmware del juego  Juego:  ~~Angry Birds~~" para el curso de sistemas embebidos  2019-1.
 
 
 El proyecto permite:
