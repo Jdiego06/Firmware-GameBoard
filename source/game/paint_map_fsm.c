@@ -152,7 +152,7 @@ void select_background(int world) {
  * --------------------------------------------------------------------------------------*/
 
 void paint_background(void) {
-	MCUFRIEND_kbv_fillBMP(Background);
+	MCUFRIEND_kbv_fillBMP(*Background);
 }
 
 /*---------------------------------------------------------------------------------------

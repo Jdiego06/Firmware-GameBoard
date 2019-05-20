@@ -43,7 +43,9 @@ bool paint_dust(void) {
 		matrix_blocks[block_to_destroy][0] = 500;
 		matrix_blocks[block_to_destroy][1] = 500;
 		destroy_block=false;
-		paint_blocks();
+
+
+
 	}
 
 

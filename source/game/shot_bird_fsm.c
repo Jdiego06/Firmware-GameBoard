@@ -30,8 +30,8 @@
 double time = 0;
 double next_x_position = 0;
 double next_y_position = 0;
-double actual_x_position = 0;
 double actual_y_position = 0;
+double actual_x_position = 0;
 double counter = 0;
 
 int shot_bird_fsm(void) {
@@ -39,9 +39,9 @@ int shot_bird_fsm(void) {
 	/*---------------------------------------------------------------------------------------
 	 *			Adjusts the position of the joystick to a new frame of reference.
 	 * --------------------------------------------------------------------------------------*/
-	actual_x_position = joystick_y_value - 75;
-	actual_y_position = joystick_x_value;
-	next_x_position = actual_y_position - 4;
+	actual_y_position = joystick_y_value - 75;
+	actual_x_position = joystick_x_value;
+	next_x_position = actual_x_position - 4;
 
 	counter = 0;
 	bool return_flag = false;
@@ -51,13 +51,13 @@ int shot_bird_fsm(void) {
 		/*---------------------------------------------------------------------------------------
 		 *			Calculate the following position values ​​in X and Y.
 		 * --------------------------------------------------------------------------------------*/
-		time = counter * (DISTANCE_FLIGHT * actual_y_position + 7) / 75;
+		time = counter * (DISTANCE_FLIGHT * actual_x_position + 7) / 75;
 
 		next_y_position = joystick_y_value
-						- (actual_x_position * time
-						* (abs(actual_x_position)
-						/ sqrt(pow(actual_y_position, 2)
-						+ pow(actual_x_position, 2)))
+						- (actual_y_position * time
+						* (abs(actual_y_position)
+						/ sqrt(pow(actual_x_position, 2)
+						+ pow(actual_y_position, 2)))
 						- (0.5) * GRAVITY * (pow(time, 2)));
 
 		next_x_position = (int16_t) (next_x_position + 4);

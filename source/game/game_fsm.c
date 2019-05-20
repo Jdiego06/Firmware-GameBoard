@@ -149,6 +149,7 @@ void game_fsm(void) {
 		Adafruit_GFX_write_String((uint8_t *) "Press Any Button");
 
 		if (world == WORLDS_NUMBER) {
+			world=0;
 			game_state = game_complete;
 		} else {
 			game_state = waiting_for_start;
